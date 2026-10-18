@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>บทเรียน วิธีทดสอบ และขั้นต่อไป · สมุดวิจัยเทรด</title><meta name="description" content="ทำไม win rate อย่างเดียวหลอกตา ทำไมต้องล็อกข้อมูลทดสอบ ต้นทุนกับการเทรดถี่ ไทม์ไลน์ และคำศัพท์"><link href="https://fonts.googleapis.com/css2?family=Pridi:wght@400;600&family=Sarabun:wght@400;600&family=Sriracha&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet"><style>
+:root{--paper:#f7f3ea;--paper2:#efe8da;--ink:#24211c;--mut:#5b554b;--soft:#7a7366;--rule:#d9d1c0;--acc:#b03a1f;--pen:#22507f;--gross:#6f8a5e}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 Sarabun,"Noto Sans Thai",Tahoma,sans-serif}
+a{color:var(--pen);text-underline-offset:3px;text-decoration-thickness:1px}
+.mono,.num{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3,.head{font-family:Pridi,"Noto Serif Thai",serif;font-weight:600;line-height:1.35}
+.page{max-width:1080px;margin:0 auto;padding:0 20px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:18px 0 10px;border-bottom:1px solid var(--ink);font-size:15px}
+.top .brand{font-family:Pridi,serif;font-weight:600;color:var(--ink);text-decoration:none}
+.top .stamp{color:var(--mut)}
+.note{font-family:Sriracha,cursive;color:var(--pen);font-size:19px;line-height:1.45}
+/* landing */
+.intro{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);gap:40px;padding:44px 0 26px;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px);background-size:100% 34px;background-position:0 33px}
+.intro h1{font-size:clamp(28px,4.6vw,46px);margin:0 0 18px;max-width:17em}
+.intro h1 .hl{background:linear-gradient(transparent 62%,#f0c9a9 62%)}
+.intro p{margin:0 0 12px;max-width:38em;background:var(--paper)}
+.intro .side{align-self:end;transform:rotate(-1.5deg);border-left:2px solid var(--pen);padding:4px 0 4px 14px;background:var(--paper)}
+.ledger{display:flex;flex-wrap:wrap;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:6px 0 38px}
+.ledger div{padding:12px 22px 12px 0;margin-right:22px;border-right:1px solid var(--rule)}
+.ledger div:last-child{border-right:0}
+.ledger b{display:block;font:600 26px/1.2 "IBM Plex Mono",monospace}
+.ledger span{font-size:14px;color:var(--mut)}
+.ledger .red b{color:var(--acc)}
+.toc-h{display:flex;align-items:baseline;gap:16px;margin:0 0 6px}
+.toc-h h2{font-size:26px;margin:0}
+.toc-h p{margin:0;color:var(--mut);font-size:15px}
+.toc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:28px}
+.entry{display:block;color:inherit;text-decoration:none;border-top:1px solid var(--ink);padding:16px 0 22px;grid-column:span 2}
+.entry.w4{grid-column:span 4}.entry.w3{grid-column:span 3}
+.entry .n{font:600 13px "IBM Plex Mono",monospace;color:var(--soft)}
+.entry h3{font-size:21px;margin:2px 0 6px}
+.entry:hover h3,.entry:focus h3{text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:5px}
+.entry p{margin:0 0 10px;font-size:16px;color:#3a362f}
+.entry .k{font:600 15px "IBM Plex Mono",monospace}
+.entry .k em{font-style:normal;color:var(--acc)}
+.entry .meta{font-size:14px;color:var(--mut);margin-top:6px}
+.entry svg,.entry svg.chart{display:block;width:auto;max-width:100%;height:auto;margin:6px 0 8px}
+.entry.main{display:grid;grid-template-columns:minmax(0,1fr) 220px;column-gap:24px}
+.entry.main .n,.entry.main h3,.entry.main p{grid-column:1}
+.entry.main .aside{grid-column:2;grid-row:1/span 5;align-self:center}
+.tag{display:inline-block;white-space:nowrap;margin:2px 0;font-size:13px;padding:0 8px;border:1px solid currentColor;border-radius:2px;line-height:1.7}
+.tag.ne{color:var(--acc)}.tag.pr{color:#8a6412}.tag.ps{color:#3f6b36}.tag.ex{color:var(--mut)}
+footer{margin:46px 0 0;padding:18px 0 50px;border-top:1px solid var(--ink);font-size:14px;color:var(--mut)}
+footer p{margin:0 0 6px;max-width:60em}
+/* topic pages */
+.crumb{padding:22px 0 0;font-size:15px}
+.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
+.thead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:start;padding:14px 0 18px;border-bottom:1px solid var(--rule)}
+.thead .n{font:600 14px "IBM Plex Mono",monospace;color:var(--soft)}
+.thead h1{font-size:clamp(26px,4.2vw,40px);margin:2px 0 12px}
+.thead p{margin:0 0 10px;max-width:40em}
+.verdict{border:2px solid var(--acc);color:var(--acc);padding:10px 16px 12px;transform:rotate(1.5deg);max-width:250px;margin-top:30px;background:var(--paper)}
+.verdict small{display:block;font-size:13px;letter-spacing:.04em;color:var(--mut)}
+.verdict b{font-family:Pridi,serif;font-size:22px;display:block;line-height:1.3}
+.verdict span{display:block;font-size:14px;color:var(--ink);margin-top:4px;line-height:1.5}
+.verdict.pr{border-color:#8a6412;color:#8a6412}
+.ground{background:var(--paper2);border-left:3px solid var(--ink);padding:10px 16px;margin:22px 0;font-size:16px;max-width:46em}
+.ground p{margin:4px 0}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:26px 36px;margin:28px 0}
+figure{margin:0}
+.fig-scroll{overflow-x:auto}
+svg.chart{width:100%;height:auto;display:block;font-family:Sarabun,"Noto Sans Thai",sans-serif}
+svg.chart .mono{font-family:"IBM Plex Mono",monospace}
+svg.chart .head{font-family:Pridi,serif}
+figcaption{font-size:14px;color:var(--mut);margin-top:8px;border-top:1px solid var(--rule);padding-top:6px}
+figcaption b{color:var(--ink);font-weight:600}
+h2.sec{font-size:24px;margin:40px 0 4px}
+.sec-sub{color:var(--mut);margin:0 0 10px;font-size:15px}
+.study{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 24px;border-top:1px solid var(--rule);padding:18px 0}
+.study .d{font:400 13px/1.6 "IBM Plex Mono",monospace;color:var(--mut)}
+.study .d .tag{margin-top:8px;font-family:Sarabun,sans-serif}
+.study h3{font-size:19px;margin:0 0 4px}
+.study .q{margin:0 0 6px}
+.study ul{margin:6px 0 4px;padding-left:20px}.study li{margin:2px 0}
+.study details{font-size:15px;color:#3a362f;margin:4px 0}
+.study summary{cursor:pointer;color:var(--pen)}
+.study .src{font:12px "IBM Plex Mono",monospace;color:var(--soft);word-break:break-all;margin:6px 0 0}
+.pn{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--ink);margin-top:40px;padding:14px 0;font-size:15px}
+.pn a{text-decoration:none}.pn a:hover{text-decoration:underline}
+.lesson{border-top:1px solid var(--rule);padding:14px 0}
+.lesson h3{font-size:20px;margin:0 0 4px}
+.lesson p{margin:0 0 8px;max-width:44em}
+.formula{font:600 clamp(17px,3vw,22px) "IBM Plex Mono",monospace;margin:8px 0;padding:8px 0;border-top:1px dashed var(--rule);border-bottom:1px dashed var(--rule)}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;border-top:1px solid var(--rule);padding:8px 0;font-size:16px}
+.tl li span:first-child{font:600 14px "IBM Plex Mono",monospace;color:var(--acc);padding-top:2px}
+ol.steps{padding-left:24px}ol.steps li{margin:0 0 12px;max-width:46em}
+dl.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:4px 32px;margin:0}
+dl.gl div{border-top:1px solid var(--rule);padding:8px 0}
+dl.gl dt{font-weight:600}dl.gl dd{margin:2px 0 0;font-size:15px;color:#3a362f}
+@media (max-width:820px){
+ .intro{grid-template-columns:1fr;gap:18px;padding-top:28px}
+ .intro .side{align-self:start;max-width:22em}
+ .toc{grid-template-columns:1fr}.entry,.entry.w3,.entry.w4{grid-column:auto}
+ .entry.main{grid-template-columns:1fr}.entry.main .aside{grid-column:1;grid-row:auto}
+ .thead{grid-template-columns:1fr}.verdict{margin-top:0;transform:rotate(-1deg)}
+ .study{grid-template-columns:1fr}.study .d{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.study .d .tag{margin-top:0}
+ .ledger div{padding-right:14px;margin-right:14px}
+ .top{flex-direction:column;gap:0}.top .stamp{font-size:13px}
+ .toc-h{display:block}.toc-h p{margin-top:2px}
+ .tl li{grid-template-columns:1fr;gap:0}
+}
+@media (max-width:420px){body{font-size:16px}.page{padding:0 16px}.ledger b{font-size:22px}}
+</style></head>
+<body><div class="page">
+<div class="top"><a class="brand" href="index.html">สมุดวิจัยเทรด ของส้มน้อย</a><span class="stamp">ทดสอบย้อนหลังและบัญชีเดโม · อัปเดต 17 ต.ค. 2026</span></div>
+<div class="crumb"><a href="index.html">← กลับสารบัญ</a></div><header class="thead"><div><div class="n">หัวข้อ 08 / 08</div><h1>บทเรียน วิธีทดสอบ และขั้นต่อไป</h1><p>สิ่งที่ได้จาก 37 งาน เขียนไว้กันลืม ทั้งเรื่องจุดคุ้มทุน ผู้ชนะปลอม การล็อกข้อมูล ต้นทุน และ martingale ต่อด้วยขั้นต่อไป ไทม์ไลน์ และคำศัพท์</p></div></header>
+<div class="figs">
+<div>
+<div class="lesson"><h3>1. win rate ขึ้นกับ TP/SL ไม่ได้วัดฝีมือ</h3>
+<p>ตั้ง TP ใกล้ SL ไกล จะชนะบ่อย ตั้ง TP ไกล SL ใกล้ จะชนะน้อย แต่จุดคุ้มทุนก็ขยับตามเสมอ</p>
+<div class="formula">จุดคุ้มทุน = SL ÷ (SL + TP)</div>
+<p>รวมต้นทุนด้วยเป็น (SL + ต้นทุน) ÷ (TP + SL) เช่น SL $2 TP $5 ต้นทุน $0.28 ได้ 2.28 ÷ 7 = 32.6% แต่ระบบชนะจริง 31.5% จึงขาดทุน</p></div>
+<figure><div class="fig-scroll"><svg class="chart" viewBox="0 0 480 290" role="img" aria-labelledby="be-curve-title be-curve-desc" style="max-width:480px"><title id="be-curve-title">จุดคุ้มทุนตามอัตรา SL ต่อ TP</title><desc id="be-curve-desc">ยิ่ง TP ไกลกว่า SL win rate ที่ต้องได้ยิ่งต่ำ คำนวณจากสูตร SL หารด้วย SL บวก TP ยังไม่รวมต้นทุน</desc><defs><marker id="be-curve-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b554b"/></marker><marker id="be-curve-arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b03a1f"/></marker></defs><line x1="50" y1="182.2" x2="460" y2="182.2" stroke="#d9d1c0"/><text x="42.0" y="187.2" font-size="13.4" fill="#7a7366" text-anchor="end" class="mono">20%</text><line x1="50" y1="129.5" x2="460" y2="129.5" stroke="#d9d1c0"/><text x="42.0" y="134.5" font-size="13.4" fill="#7a7366" text-anchor="end" class="mono">40%</text><line x1="50" y1="76.8" x2="460" y2="76.8" stroke="#d9d1c0"/><text x="42.0" y="81.8" font-size="13.4" fill="#7a7366" text-anchor="end" class="mono">60%</text><line x1="50" y1="24.0" x2="460" y2="24.0" stroke="#d9d1c0"/><text x="42.0" y="29.0" font-size="13.4" fill="#7a7366" text-anchor="end" class="mono">80%</text><polyline points="50.0,32.1 57.1,39.6 64.1,46.6 71.2,53.1 78.3,59.2 85.3,64.8 92.4,70.2 99.5,75.2 106.6,79.9 113.6,84.3 120.7,88.5 127.8,92.4 134.8,96.2 141.9,99.7 149.0,103.1 156.0,106.3 163.1,109.4 170.2,112.3 177.2,115.1 184.3,117.8 191.4,120.3 198.4,122.8 205.5,125.1 212.6,127.3 219.7,129.5 226.7,131.6 233.8,133.6 240.9,135.5 247.9,137.3 255.0,139.1 262.1,140.8 269.1,142.5 276.2,144.1 283.3,145.6 290.3,147.1 297.4,148.5 304.5,149.9 311.6,151.3 318.6,152.6 325.7,153.8 332.8,155.1 339.8,156.3 346.9,157.4 354.0,158.6 361.0,159.6 368.1,160.7 375.2,161.7 382.2,162.7 389.3,163.7 396.4,164.7 403.4,165.6 410.5,166.5 417.6,167.4 424.7,168.2 431.7,169.1 438.8,169.9 445.9,170.7 452.9,171.4 460.0,172.2" fill="none" stroke="#24211c" stroke-width="2"/><circle cx="78.3" cy="59.2" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="78.3" y="49.2" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">66.7%</text><text x="78.3" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:0.5</text><circle cx="149.0" cy="103.1" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="149.0" y="93.1" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">50.0%</text><text x="149.0" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:1</text><circle cx="219.7" cy="129.5" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="219.7" y="119.5" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">40.0%</text><text x="219.7" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:1.5</text><circle cx="290.3" cy="147.1" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="290.3" y="137.1" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">33.3%</text><text x="290.3" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:2</text><circle cx="361.0" cy="159.6" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="361.0" y="149.6" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">28.6%</text><text x="361.0" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:2.5</text><circle cx="431.7" cy="169.1" r="4" fill="#f7f3ea" stroke="#24211c" stroke-width="1.5"/><text x="431.7" y="159.1" font-size="13.4" fill="#24211c" text-anchor="middle" class="mono">25.0%</text><text x="431.7" y="255.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">1:3</text><text x="255.0" y="279.0" font-size="14.6" fill="#5b554b" text-anchor="middle">SL : TP (ยังไม่รวมต้นทุน)</text></svg></div><figcaption><b>เส้นจุดคุ้มทุน</b> คำนวณจากสูตร ยังไม่รวมต้นทุน</figcaption></figure>
+</div>
+<figure><div class="fig-scroll"><svg class="chart" viewBox="0 0 480 548" role="img" aria-labelledby="pipeline-title pipeline-desc" style="max-width:480px"><title id="pipeline-title">ขั้นตอนทดสอบกฎเทรดของเรา</title><desc id="pipeline-desc">ค้นหาในข้อมูลส่วนแรก จดกฎก่อน แล้วทดสอบกับข้อมูลที่ล็อกไว้ครั้งเดียวหลังหักต้นทุน ไม่ผ่านก็จบ</desc><defs><marker id="pipeline-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b554b"/></marker><marker id="pipeline-arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b03a1f"/></marker></defs><line x1="240.0" y1="60" x2="240.0" y2="87" stroke="#5b554b" stroke-width="1.4" marker-end="url(#pipeline-arr)"/><line x1="240.0" y1="140" x2="240.0" y2="167" stroke="#5b554b" stroke-width="1.4" marker-end="url(#pipeline-arr)"/><line x1="240.0" y1="220" x2="240.0" y2="247" stroke="#5b554b" stroke-width="1.4" marker-end="url(#pipeline-arr)"/><line x1="240.0" y1="300" x2="240.0" y2="327" stroke="#5b554b" stroke-width="1.4" marker-end="url(#pipeline-arr)"/><line x1="190" y1="380" x2="190" y2="435" stroke="#5b554b" stroke-width="1.4" marker-end="url(#pipeline-arr)"/><rect x="138" y="399.0" width="44" height="18" fill="#f7f3ea"/><text x="160.0" y="412.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ผ่าน</text><line x1="290" y1="380" x2="290" y2="435" stroke="#b03a1f" stroke-width="1.4" marker-end="url(#pipeline-arra)"/><rect x="298" y="399.0" width="68" height="18" fill="#f7f3ea"/><text x="332.0" y="412.0" font-size="13.4" fill="#b03a1f" text-anchor="middle">ไม่ผ่าน</text><rect x="90" y="8" width="300" height="52" rx="6" fill="#f7f3ea"/><rect x="90" y="8" width="300" height="52" rx="6" fill="#f7f3ea" stroke="#24211c" stroke-width="1"/><text x="240.0" y="32.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">ข้อมูลราคา M5 ปี 2019 ถึง 9 ต.ค. 2025</text><text x="240.0" y="51.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">Dukascopy</text><rect x="90" y="88" width="300" height="52" rx="6" fill="#f7f3ea"/><rect x="90" y="88" width="300" height="52" rx="6" fill="#f7f3ea" stroke="#24211c" stroke-width="1"/><text x="240.0" y="112.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">ค้นหากฎในข้อมูลส่วนแรก</text><text x="240.0" y="131.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">in-sample</text><rect x="90" y="168" width="300" height="52" rx="6" fill="#f7f3ea"/><rect x="90" y="168" width="300" height="52" rx="6" fill="#f6e6df" stroke="#b03a1f" stroke-width="1.5"/><text x="240.0" y="192.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">จดกฎ SL/TP และเกณฑ์ผ่านลงไฟล์</text><text x="240.0" y="211.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ลงทะเบียนล่วงหน้า + hash</text><rect x="90" y="248" width="300" height="52" rx="6" fill="#f7f3ea"/><rect x="90" y="248" width="300" height="52" rx="6" fill="#f7f3ea" stroke="#24211c" stroke-width="1"/><text x="240.0" y="272.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">เปิดข้อมูลส่วนที่ล็อกไว้ ทดสอบครั้งเดียว</text><text x="240.0" y="291.0" font-size="13.4" fill="#5b554b" text-anchor="middle" class="mono">out-of-sample</text><rect x="90" y="328" width="300" height="52" rx="6" fill="#f7f3ea"/><rect x="90" y="328" width="300" height="52" rx="6" fill="#f7f3ea" stroke="#24211c" stroke-width="1"/><text x="240.0" y="352.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">หักต้นทุน $0.28 ต่อไม้ แล้วเช็ก</text><text x="240.0" y="371.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ชนะเกินจุดคุ้มทุน และ PF ≥ 1.2 ?</text><rect x="28" y="436" width="200" height="60" rx="6" fill="#f7f3ea"/><rect x="28" y="436" width="200" height="60" rx="6" fill="#f7f3ea" stroke="#24211c" stroke-width="1" stroke-dasharray="4 3"/><text x="128.0" y="464.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">ทดสอบต่อในบัญชีเดโม</text><text x="128.0" y="483.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ยังไม่มีระบบไหนมาถึง</text><rect x="252" y="436" width="200" height="60" rx="6" fill="#f7f3ea"/><rect x="252" y="436" width="200" height="60" rx="6" fill="#f6e6df" stroke="#b03a1f" stroke-width="1.5"/><text x="352.0" y="464.0" font-size="16.8" fill="#24211c" text-anchor="middle" font-weight="600">จบ ไม่แก้กฎแล้วลองซ้ำ</text><text x="352.0" y="483.0" font-size="13.4" fill="#5b554b" text-anchor="middle">บนข้อมูลชุดเดิม</text><text x="240.0" y="528.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ข้อมูลตั้งแต่ 10 ต.ค. 2025 ยังล็อกไว้ ไม่ได้ใช้ (ยกเว้นงานแม่ปลาฯ และ ACME)</text></svg></div><figcaption><b>ขั้นตอนที่ใช้กับทุกงานตั้งแต่ 11 ต.ค.</b> กล่องแดงคือ 2 ขั้นที่ข้ามไม่ได้</figcaption></figure>
+</div>
+<div class="lesson"><h3>2. ลองหลายแบบ ต้องเจอผู้ชนะปลอม</h3><p>ลอง 37,682 แบบ ย่อมมีบางแบบดูชนะ 70% โดยบังเอิญ (รายงานประเมินราว 2-3% ของกลุ่มเล็ก) พอเจอข้อมูลใหม่ก็กลับมาราว 50% ยิ่งลองมาก ยิ่งต้องมีหลักฐานแรงขึ้น ตอนนี้ลองไป 925 ชุดในบันทึก เกณฑ์ Bonferroni z ราว 3.87 (ดู<a href="patterns.html">หน้าขุดรูปแบบ</a>)</p></div>
+<div class="lesson"><h3>3. ต้องล็อกข้อมูลทดสอบไว้ก่อน</h3><p>แบ่งข้อมูลเป็นส่วนค้นหากับส่วนที่ล็อกไว้ ห้ามแอบดู ตั้งกฎและจดลงไฟล์ (พร้อม hash) ก่อนเปิดดูส่วนที่ล็อก ข้อมูลตั้งแต่ 10 ต.ค. 2025 ยังเก็บไว้ ไม่ได้ใช้ ยกเว้นงานแม่ปลาฯ และ ACME ที่ใช้ไปแล้ว 1 ครั้ง</p></div>
+<div class="lesson"><h3>4. ต้นทุนคือศัตรูของการเทรดถี่</h3><p>ทอง M5 ราคาวิ่งเฉลี่ยแค่ไม่กี่ดอลลาร์ ต้นทุน $0.28 ต่อไม้ (spread ค่าคอม และ slippage) กินกำไรทั้งหมด เทรด 35 ครั้งต่อวันก็ยิ่งจ่ายต้นทุนมาก กรอบใหญ่ (H1/H4) ต้นทุนเทียบ R เล็กลง แต่ก็ยังไม่เจอเอดจ์</p></div>
+<div class="lesson"><h3>5. martingale ไม่สร้างกำไร</h3><p>กำไรในบัญชีเดโมของบอทมาจากการเพิ่ม lot หลังแพ้ ถ้าใช้ lot คงที่ 4 ใน 5 เทคนิคติดลบ งาน IQ รอบ 5 ก็พบว่า martingale แค่ขยายความผันผวน และทำให้พอร์ตแตกบ่อยขึ้น (ดู<a href="forex.html">หน้าฟอเร็กซ์</a>)</p></div>
+
+<h2 class="sec">ขั้นต่อไป</h2>
+<ol class="steps">
+<li><b>ใช้แท่งกลืนกินเป็นแค่จังหวะเข้า หลังกรองด้วย H1</b><br>แท่งกลืนกินเดี่ยวๆ ไม่มีเอดจ์ ให้ดูทิศ H1 ก่อน แล้วรอแท่งกลืนกิน M5 ทางเดียวกัน ตัวกรอง H1 แบบที่ลองแล้ว (BOS + ย่อ 40-60%) ยังไม่ผ่าน จึงต้องเขียนกฎ H1 ของส้มน้อยเองให้ชัด แล้วลงทะเบียนล่วงหน้าก่อนทดสอบ</li>
+<li><b>ทดสอบกับข้อมูลที่ล็อกไว้แค่ครั้งเดียว</b><br>ตั้งกฎ ตั้ง SL/TP และเกณฑ์ผ่านให้เสร็จก่อน แล้วค่อยเปิดข้อมูลที่ล็อกไว้ ถ้าไม่ผ่านก็ถือว่าไม่ผ่าน ห้ามปรับกฎแล้วลองใหม่บนข้อมูลชุดเดิม</li>
+<li><b>จดบันทึกการเทรดมือ (journal) ในบัญชีเดโม</b><br>ทุกไม้จดเวลา ทิศ H1 เหตุผลที่เข้า SL TP ผลลัพธ์ และ MAE/MFE ถ้าดูได้ ใช้ lot คงที่ ไม่เพิ่ม lot หลังแพ้ เมื่อได้หลายร้อยไม้จะเห็นว่าดุลยพินิจของเราดีกว่ากฎตายตัวไหม</li>
+<li><b>คิดต้นทุนทุกครั้ง</b><br>ก่อนเชื่อผลทดสอบใด ถามว่าหลังหัก $0.28 ต่อไม้แล้วยังกำไรไหม และ win rate เกินจุดคุ้มทุนของ TP/SL นั้นหรือยัง</li>
+</ol>
+
+<h2 class="sec">ไทม์ไลน์ (ปี 2026)</h2>
+<p class="sec-sub">วันที่มาจากบันทึกการทดสอบ (results/trials.csv), STATUS.md และหัวรายงาน รายการที่เขียนว่า "ราว" เรียงตามลำดับจำนวนการทดสอบสะสม เพราะไฟล์ไม่ได้บอกเวลาตรงๆ</p>
+<ul class="tl"><li><span>1 ต.ค.</span><span>IQ Option: บันทึกพื้นฐาน จุดคุ้มทุน 52.36% ที่ payout 91%</span></li><li><span>ต้น ต.ค.</span><span>IQ Option: รอบ 2 ถึง 5 และ EUR/USD 1 นาที (ไฟล์ไม่ระบุวันแน่ชัด)</span></li><li><span>4 ต.ค.</span><span>ทอง: ค้นหารุ่นแรก 888 แบบ + ML / IQ: ค้นหาเทคนิค 6 คู่</span></li><li><span>5 ต.ค.</span><span>ทอง: CHoCH M5 (งานทีมเก่า)</span></li><li><span>11 ต.ค.</span><span>วันใหญ่: walk-forward 29 ระบบ, NYBO, Track 2/3/A/B, REB-H4, แม่ปลาฯ, ACME, IQ spike fade, ตรวจข้อมูล IC</span></li><li><span>15 ต.ค.</span><span>ทอง: EMA55, swing breakout, SOX, ADR, สแกนแท่งกลืนกินวันที่ 15</span></li><li><span>16 ต.ค.</span><span>ตัวอย่างสอนเรื่องโกงอนาคต, fuzzy pattern แล้วต่อด้วย (ราว 16 ต.ค.) ขุดรูปแบบ hindsight, SMC M5/H1/H4, ปิดทะลุ TP $5, MFE/MAE, SL $2 / TP $5</span></li><li><span>12-17 ต.ค.</span><span>เฝ้าสัญญาณแท่งกลืนกินสด (ไม่ส่งคำสั่ง) 197 สัญญาณ</span></li><li><span>17 ต.ค.</span><span>ทดสอบย้อนหลัง 1 สัปดาห์ 4 แบบ (09:48 น.) และ MAE/MFE 7 ปี 62,599 สัญญาณ (13:29 น.)</span></li></ul>
+
+<h2 class="sec">คำศัพท์</h2>
+<dl class="gl"><div><dt>MAE (Maximum Adverse Excursion)</dt><dd>ระยะที่ราคาวิ่งสวนเราไกลที่สุดระหว่างถือไม้ ใช้ช่วยคิดว่า SL ควรห่างแค่ไหน</dd></div><div><dt>MFE (Maximum Favorable Excursion)</dt><dd>ระยะที่ราคาวิ่งไปทางเราไกลที่สุดระหว่างถือไม้ ใช้ช่วยคิดว่า TP ควรอยู่ตรงไหน</dd></div><div><dt>Holdout (ข้อมูลที่ล็อกไว้)</dt><dd>ข้อมูลส่วนที่เก็บไว้ ห้ามดูระหว่างค้นหากฎ ใช้ทดสอบจริงครั้งเดียวตอนท้าย เหมือนข้อสอบที่ยังไม่เคยเห็น</dd></div><div><dt>PF (Profit Factor)</dt><dd>กำไรรวม ÷ ขาดทุนรวม มากกว่า 1 คือกำไร น้อยกว่า 1 คือขาดทุน เกณฑ์ของเราต้องการ 1.2 ขึ้นไป</dd></div><div><dt>R:R (Risk : Reward)</dt><dd>เสี่ยงเท่าไร ได้เท่าไร เช่น SL $2 TP $5 คือ 1 : 2.5 ส่วน R คือหน่วยของความเสี่ยง 1 ไม้ (1R = ระยะ SL)</dd></div><div><dt>จุดคุ้มทุน (Breakeven win rate)</dt><dd>win rate ขั้นต่ำที่ทำให้ไม่ขาดทุน = SL ÷ (SL + TP) บวกผลของต้นทุน</dd></div><div><dt>In-sample / Out-of-sample</dt><dd>ข้อมูลที่ใช้ค้นหากฎ / ข้อมูลที่ไม่ได้ใช้ค้นหา ใช้ตรวจว่ากฎยังได้ผลไหม</dd></div><div><dt>Gross / Net</dt><dd>กำไรก่อนหักต้นทุน / กำไรหลังหักต้นทุน (spread ค่าคอม slippage)</dd></div><div><dt>Walk-forward</dt><dd>ค้นหากฎในช่วงหนึ่ง แล้วทดสอบช่วงถัดไป เลื่อนไปเรื่อยๆ เหมือนเทรดจริงที่ไม่รู้อนาคต</dd></div><div><dt>ลงทะเบียนล่วงหน้า (Pre-registration)</dt><dd>จดกฎและเกณฑ์ผ่านลงไฟล์ล็อกก่อนทดสอบ เพื่อกันการแก้กฎหลังเห็นผล</dd></div><div><dt>แท่งกลืนกิน T1 / T2 (แบบปิดทะลุ)</dt><dd>ซื้อ T1 แท่งก่อนเป็นแท่งแดง แท่งเขียวปิดเหนือ high ของแท่งนั้น ซื้อ T2 2 แท่งก่อนเป็นแท่งแดง แท่งเขียวปิดเหนือ high สูงสุดของ 2 แท่ง ขายกลับด้าน</dd></div><div><dt>Martingale</dt><dd>เพิ่มขนาดไม้หลังแพ้เพื่อเอาคืน ทำให้ดูกำไรบ่อย แต่เสี่ยงพอร์ตแตกเมื่อแพ้ติดกันยาว</dd></div></dl>
+<div class="pn"><a href="iq-option.html">← IQ Option (บัญชี PRACTICE)</a><a href="index.html">กลับสารบัญ →</a></div>
+<footer><p>ตัวเลขทุกตัวคัดลอกจากไฟล์รายงานของงานแต่ละชิ้น ไม่ได้คำนวณใหม่ ยกเว้นสัดส่วนสัญญาณสด 99/192 ที่นับจาก signals.csv และเส้นจุดคุ้มทุนในหน้าบทเรียนที่คำนวณจากสูตร</p>
+<p>ทั้งหมดเป็นการทดสอบย้อนหลังหรือบัญชีเดโม (IC Markets MT5 demo และ IQ Option PRACTICE) ไม่มีการเทรดเงินจริง และไม่ใช่คำแนะนำการลงทุน</p>
+<p><a href="old/index_v1.html">หน้าเวอร์ชันเก่า (ยาวหน้าเดียว)</a></p></footer>
+</div></body></html>
