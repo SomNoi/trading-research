@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แท่งกลืนกินทอง M5 · สมุดวิจัยเทรด</title><meta name="description" content="สัญญาณปิดทะลุ T1/T2 บนทอง กราฟ 5 นาที ย้อนหลัง 2019 ถึง 2025 ราวๆ 35 สัญญาณต่อวัน ราคาวิ่งไปทางเรากับวิ่งสวนพอๆ กัน"><link href="https://fonts.googleapis.com/css2?family=Pridi:wght@400;600&family=Sarabun:wght@400;600&family=Sriracha&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet"><style>
+:root{--paper:#f7f3ea;--paper2:#efe8da;--ink:#24211c;--mut:#5b554b;--soft:#7a7366;--rule:#d9d1c0;--acc:#b03a1f;--pen:#22507f;--gross:#6f8a5e}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 Sarabun,"Noto Sans Thai",Tahoma,sans-serif}
+a{color:var(--pen);text-underline-offset:3px;text-decoration-thickness:1px}
+.mono,.num{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3,.head{font-family:Pridi,"Noto Serif Thai",serif;font-weight:600;line-height:1.35}
+.page{max-width:1080px;margin:0 auto;padding:0 20px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:18px 0 10px;border-bottom:1px solid var(--ink);font-size:15px}
+.top .brand{font-family:Pridi,serif;font-weight:600;color:var(--ink);text-decoration:none}
+.top .stamp{color:var(--mut)}
+.note{font-family:Sriracha,cursive;color:var(--pen);font-size:19px;line-height:1.45}
+/* landing */
+.intro{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);gap:40px;padding:44px 0 26px;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px);background-size:100% 34px;background-position:0 33px}
+.intro h1{font-size:clamp(28px,4.6vw,46px);margin:0 0 18px;max-width:17em}
+.intro h1 .hl{background:linear-gradient(transparent 62%,#f0c9a9 62%)}
+.intro p{margin:0 0 12px;max-width:38em;background:var(--paper)}
+.intro .side{align-self:end;transform:rotate(-1.5deg);border-left:2px solid var(--pen);padding:4px 0 4px 14px;background:var(--paper)}
+.ledger{display:flex;flex-wrap:wrap;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:6px 0 38px}
+.ledger div{padding:12px 22px 12px 0;margin-right:22px;border-right:1px solid var(--rule)}
+.ledger div:last-child{border-right:0}
+.ledger b{display:block;font:600 26px/1.2 "IBM Plex Mono",monospace}
+.ledger span{font-size:14px;color:var(--mut)}
+.ledger .red b{color:var(--acc)}
+.toc-h{display:flex;align-items:baseline;gap:16px;margin:0 0 6px}
+.toc-h h2{font-size:26px;margin:0}
+.toc-h p{margin:0;color:var(--mut);font-size:15px}
+.toc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:28px}
+.entry{display:block;color:inherit;text-decoration:none;border-top:1px solid var(--ink);padding:16px 0 22px;grid-column:span 2}
+.entry.w4{grid-column:span 4}.entry.w3{grid-column:span 3}
+.entry .n{font:600 13px "IBM Plex Mono",monospace;color:var(--soft)}
+.entry h3{font-size:21px;margin:2px 0 6px}
+.entry:hover h3,.entry:focus h3{text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:5px}
+.entry p{margin:0 0 10px;font-size:16px;color:#3a362f}
+.entry .k{font:600 15px "IBM Plex Mono",monospace}
+.entry .k em{font-style:normal;color:var(--acc)}
+.entry .meta{font-size:14px;color:var(--mut);margin-top:6px}
+.entry svg,.entry svg.chart{display:block;width:auto;max-width:100%;height:auto;margin:6px 0 8px}
+.entry.main{display:grid;grid-template-columns:minmax(0,1fr) 220px;column-gap:24px}
+.entry.main .n,.entry.main h3,.entry.main p{grid-column:1}
+.entry.main .aside{grid-column:2;grid-row:1/span 5;align-self:center}
+.tag{display:inline-block;white-space:nowrap;margin:2px 0;font-size:13px;padding:0 8px;border:1px solid currentColor;border-radius:2px;line-height:1.7}
+.tag.ne{color:var(--acc)}.tag.pr{color:#8a6412}.tag.ps{color:#3f6b36}.tag.ex{color:var(--mut)}
+footer{margin:46px 0 0;padding:18px 0 50px;border-top:1px solid var(--ink);font-size:14px;color:var(--mut)}
+footer p{margin:0 0 6px;max-width:60em}
+/* topic pages */
+.crumb{padding:22px 0 0;font-size:15px}
+.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
+.thead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:start;padding:14px 0 18px;border-bottom:1px solid var(--rule)}
+.thead .n{font:600 14px "IBM Plex Mono",monospace;color:var(--soft)}
+.thead h1{font-size:clamp(26px,4.2vw,40px);margin:2px 0 12px}
+.thead p{margin:0 0 10px;max-width:40em}
+.verdict{border:2px solid var(--acc);color:var(--acc);padding:10px 16px 12px;transform:rotate(1.5deg);max-width:250px;margin-top:30px;background:var(--paper)}
+.verdict small{display:block;font-size:13px;letter-spacing:.04em;color:var(--mut)}
+.verdict b{font-family:Pridi,serif;font-size:22px;display:block;line-height:1.3}
+.verdict span{display:block;font-size:14px;color:var(--ink);margin-top:4px;line-height:1.5}
+.verdict.pr{border-color:#8a6412;color:#8a6412}
+.ground{background:var(--paper2);border-left:3px solid var(--ink);padding:10px 16px;margin:22px 0;font-size:16px;max-width:46em}
+.ground p{margin:4px 0}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:26px 36px;margin:28px 0}
+figure{margin:0}
+.fig-scroll{overflow-x:auto}
+svg.chart{width:100%;height:auto;display:block;font-family:Sarabun,"Noto Sans Thai",sans-serif}
+svg.chart .mono{font-family:"IBM Plex Mono",monospace}
+svg.chart .head{font-family:Pridi,serif}
+figcaption{font-size:14px;color:var(--mut);margin-top:8px;border-top:1px solid var(--rule);padding-top:6px}
+figcaption b{color:var(--ink);font-weight:600}
+h2.sec{font-size:24px;margin:40px 0 4px}
+.sec-sub{color:var(--mut);margin:0 0 10px;font-size:15px}
+.study{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 24px;border-top:1px solid var(--rule);padding:18px 0}
+.study .d{font:400 13px/1.6 "IBM Plex Mono",monospace;color:var(--mut)}
+.study .d .tag{margin-top:8px;font-family:Sarabun,sans-serif}
+.study h3{font-size:19px;margin:0 0 4px}
+.study .q{margin:0 0 6px}
+.study ul{margin:6px 0 4px;padding-left:20px}.study li{margin:2px 0}
+.study details{font-size:15px;color:#3a362f;margin:4px 0}
+.study summary{cursor:pointer;color:var(--pen)}
+.study .src{font:12px "IBM Plex Mono",monospace;color:var(--soft);word-break:break-all;margin:6px 0 0}
+.pn{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--ink);margin-top:40px;padding:14px 0;font-size:15px}
+.pn a{text-decoration:none}.pn a:hover{text-decoration:underline}
+.lesson{border-top:1px solid var(--rule);padding:14px 0}
+.lesson h3{font-size:20px;margin:0 0 4px}
+.lesson p{margin:0 0 8px;max-width:44em}
+.formula{font:600 clamp(17px,3vw,22px) "IBM Plex Mono",monospace;margin:8px 0;padding:8px 0;border-top:1px dashed var(--rule);border-bottom:1px dashed var(--rule)}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;border-top:1px solid var(--rule);padding:8px 0;font-size:16px}
+.tl li span:first-child{font:600 14px "IBM Plex Mono",monospace;color:var(--acc);padding-top:2px}
+ol.steps{padding-left:24px}ol.steps li{margin:0 0 12px;max-width:46em}
+dl.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:4px 32px;margin:0}
+dl.gl div{border-top:1px solid var(--rule);padding:8px 0}
+dl.gl dt{font-weight:600}dl.gl dd{margin:2px 0 0;font-size:15px;color:#3a362f}
+@media (max-width:820px){
+ .intro{grid-template-columns:1fr;gap:18px;padding-top:28px}
+ .intro .side{align-self:start;max-width:22em}
+ .toc{grid-template-columns:1fr}.entry,.entry.w3,.entry.w4{grid-column:auto}
+ .entry.main{grid-template-columns:1fr}.entry.main .aside{grid-column:1;grid-row:auto}
+ .thead{grid-template-columns:1fr}.verdict{margin-top:0;transform:rotate(-1deg)}
+ .study{grid-template-columns:1fr}.study .d{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.study .d .tag{margin-top:0}
+ .ledger div{padding-right:14px;margin-right:14px}
+ .top{flex-direction:column;gap:0}.top .stamp{font-size:13px}
+ .toc-h{display:block}.toc-h p{margin-top:2px}
+ .tl li{grid-template-columns:1fr;gap:0}
+}
+@media (max-width:420px){body{font-size:16px}.page{padding:0 16px}.ledger b{font-size:22px}}
+</style></head>
+<body><div class="page">
+<div class="top"><a class="brand" href="index.html">สมุดวิจัยเทรด ของส้มน้อย</a><span class="stamp">ทดสอบย้อนหลังและบัญชีเดโม · อัปเดต 17 ต.ค. 2026</span></div>
+<div class="crumb"><a href="index.html">← กลับสารบัญ</a></div><header class="thead"><div><div class="n">หัวข้อ 01 / 08</div><h1>แท่งกลืนกินทอง M5</h1><p>เรื่องหลักของเรา สัญญาณปิดทะลุ (แท่งกลืนกิน T1/T2) บนทอง XAUUSD กราฟ 5 นาที ทดสอบย้อนหลัง 2019 ถึง 2025 ได้ 73,958 สัญญาณ ราว 35 ครั้งต่อวัน</p><p>หลังสัญญาณ ราคาวิ่งไปทางเรากับวิ่งสวนพอๆ กัน (MFE กลาง $2.34 เทียบ MAE กลาง $2.42) ลอง SL/TP หลายแบบ ทุกแบบชนะต่ำกว่าจุดคุ้มทุน ใส่ตัวกรอง H1 ก็ยังไม่พอ</p></div><div class="verdict ne"><small>ผลสรุป</small><b>ไม่มีเอดจ์</b><span>ทุก SL ที่ลอง ชนะต่ำกว่าจุดคุ้มทุน ขาดทุนทุกปี</span></div></header><div class="ground"><p><b>จุดคุ้มทุน</b> คือ win rate ขั้นต่ำที่ไม่ขาดทุน คิดจาก (SL + ต้นทุน) ÷ (SL + TP) เช่น SL $2 TP $5 ต้นทุน $0.28 ต่อไม้ (0.01 lot) ได้ 2.28 ÷ 7 = 32.6% ระบบต้องชนะเกินตัวเลขนี้ถึงจะกำไร</p></div><div class="figs"><figure><div class="fig-scroll"><svg class="chart" viewBox="0 0 480 268" role="img" aria-labelledby="engulf-rule-title engulf-rule-desc" style="max-width:480px"><title id="engulf-rule-title">กฎแท่งกลืนกินแบบปิดทะลุ T1 และ T2</title><desc id="engulf-rule-desc">ฝั่งซื้อ T1 แท่งเขียวปิดเหนือ high ของแท่งแดงก่อนหน้า T2 แท่งเขียวปิดเหนือ high สูงสุดของแท่งแดง 2 แท่ง</desc><defs><marker id="engulf-rule-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b554b"/></marker><marker id="engulf-rule-arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b03a1f"/></marker></defs><rect x="8" y="8" width="224" height="216" rx="6" fill="none" stroke="#d9d1c0"/><text x="22.0" y="34.0" font-size="19.0" fill="#24211c" text-anchor="start" font-weight="600" class="head">ซื้อ T1</text><rect x="248" y="8" width="224" height="216" rx="6" fill="none" stroke="#d9d1c0"/><text x="262.0" y="34.0" font-size="19.0" fill="#24211c" text-anchor="start" font-weight="600" class="head">ซื้อ T2</text><line x1="28" y1="96" x2="216" y2="96" stroke="#5b554b" stroke-dasharray="5 4"/><rect x="132" y="101" width="88" height="18" fill="#f7f3ea"/><text x="176.0" y="114.0" font-size="13.4" fill="#5b554b" text-anchor="middle">high แท่งแดง</text><line x1="72" y1="96" x2="72" y2="196" stroke="#24211c" stroke-width="1.4"/><rect x="60" y="112" width="24" height="64" fill="#24211c" stroke="#24211c" stroke-width="1.4"/><line x1="116" y1="64" x2="116" y2="204" stroke="#24211c" stroke-width="1.4"/><rect x="104" y="76" width="24" height="100" fill="#f7f3ea" stroke="#24211c" stroke-width="1.4"/><line x1="132" y1="76" x2="160" y2="76" stroke="#b03a1f" stroke-width="1.5" marker-end="url(#engulf-rule-arra)"/><text x="166.0" y="72.0" font-size="13.4" fill="#b03a1f" text-anchor="start">ปิดเหนือเส้น</text><text x="166.0" y="88.0" font-size="13.4" fill="#b03a1f" text-anchor="start">= สัญญาณ</text><line x1="268" y1="104" x2="456" y2="104" stroke="#5b554b" stroke-dasharray="5 4"/><rect x="392" y="148" width="76" height="34" fill="#f7f3ea"/><text x="430.0" y="160.0" font-size="13.4" fill="#5b554b" text-anchor="middle">high สูงสุด</text><text x="430.0" y="176.0" font-size="13.4" fill="#5b554b" text-anchor="middle">ของ 2 แท่ง</text><line x1="430" y1="140" x2="430" y2="108" stroke="#5b554b" stroke-width="0.8"/><line x1="296" y1="104" x2="296" y2="176" stroke="#24211c" stroke-width="1.4"/><rect x="284" y="116" width="24" height="44" fill="#24211c" stroke="#24211c" stroke-width="1.4"/><line x1="332" y1="132" x2="332" y2="204" stroke="#24211c" stroke-width="1.4"/><rect x="320" y="144" width="24" height="48" fill="#24211c" stroke="#24211c" stroke-width="1.4"/><line x1="372" y1="72" x2="372" y2="212" stroke="#24211c" stroke-width="1.4"/><rect x="360" y="84" width="24" height="108" fill="#f7f3ea" stroke="#24211c" stroke-width="1.4"/><line x1="388" y1="84" x2="404" y2="84" stroke="#b03a1f" stroke-width="1.5" marker-end="url(#engulf-rule-arra)"/><text x="408.0" y="80.0" font-size="13.4" fill="#b03a1f" text-anchor="start">ปิดเหนือ</text><text x="408.0" y="96.0" font-size="13.4" fill="#b03a1f" text-anchor="start">= สัญญาณ</text><line x1="8" y1="236" x2="472" y2="236" stroke="#d9d1c0" stroke-width=".8"/><rect x="8" y="248" width="12" height="12" fill="#24211c"/><text x="26.0" y="259.0" font-size="13.4" fill="#5b554b" text-anchor="start">แท่งลง (แดง)</text><rect x="124" y="248" width="12" height="12" fill="#f7f3ea" stroke="#24211c"/><text x="142.0" y="259.0" font-size="13.4" fill="#5b554b" text-anchor="start">แท่งขึ้น (เขียว)</text><text x="472.0" y="259.0" font-size="13.4" fill="#5b554b" text-anchor="end">ฝั่งขายใช้กฎกลับด้าน</text></svg></div><figcaption><b>กฎสัญญาณที่ทดสอบ</b> วาดแบบสมุด แท่งทึบคือแท่งลง (แดง) แท่งโปร่งคือแท่งขึ้น (เขียว)</figcaption></figure><figure><div class="fig-scroll"><svg class="chart" viewBox="0 0 480 322" role="img" aria-labelledby="engulf-be-title engulf-be-desc" style="max-width:480px"><title id="engulf-be-title">แท่งกลืนกิน ชนะจริงเทียบจุดคุ้มทุน</title><desc id="engulf-be-desc">แต่ละแถวคือ win rate ที่ได้จริง เทียบกับ win rate ขั้นต่ำที่ต้องได้เพื่อไม่ขาดทุน</desc><defs><marker id="engulf-be-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b554b"/></marker><marker id="engulf-be-arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b03a1f"/></marker></defs><rect x="8" y="10" width="22" height="10" fill="#5b554b"/><text x="36.0" y="20.0" font-size="15.7" fill="#5b554b" text-anchor="start">ชนะจริง</text><rect x="108" y="6" width="3" height="18" fill="#b03a1f"/><text x="118.0" y="20.0" font-size="15.7" fill="#b03a1f" text-anchor="start">จุดคุ้มทุน ต้องเกินเส้นนี้</text><text x="8.0" y="56.0" font-size="15.7" fill="#24211c" text-anchor="start">SL $2 / TP $5 ทุกสัญญาณ (2019-2025)</text><rect x="8" y="64" width="412" height="14" fill="#efe8da"/><rect x="8" y="64" width="105.0" height="14" fill="#5b554b"/><rect x="121.9" y="59" width="3" height="24" fill="#b03a1f"/><text x="108.0" y="75.5" font-size="13.4" fill="#f7f3ea" text-anchor="end" font-weight="600" class="mono">31.5%</text><text x="130.4" y="75.5" font-size="13.4" fill="#b03a1f" text-anchor="start" font-weight="600" class="mono">32.6%</text><text x="8.0" y="110.0" font-size="15.7" fill="#24211c" text-anchor="start">SL $2 / TP $5 + ตัวกรอง H1</text><rect x="8" y="118" width="412" height="14" fill="#efe8da"/><rect x="8" y="118" width="97.0" height="14" fill="#5b554b"/><rect x="121.9" y="113" width="3" height="24" fill="#b03a1f"/><text x="100.0" y="129.5" font-size="13.4" fill="#f7f3ea" text-anchor="end" font-weight="600" class="mono">30.6%</text><text x="130.4" y="129.5" font-size="13.4" fill="#b03a1f" text-anchor="start" font-weight="600" class="mono">32.6%</text><text x="8.0" y="164.0" font-size="15.7" fill="#24211c" text-anchor="start">TP $5 / SL ปลายแท่งสัญญาณ</text><rect x="8" y="172" width="412" height="14" fill="#efe8da"/><rect x="8" y="172" width="47.3" height="14" fill="#5b554b"/><rect x="111.8" y="167" width="3" height="24" fill="#b03a1f"/><text x="50.3" y="183.5" font-size="13.4" fill="#f7f3ea" text-anchor="end" font-weight="600" class="mono">25.2%</text><text x="120.3" y="183.5" font-size="13.4" fill="#b03a1f" text-anchor="start" font-weight="600" class="mono">31.5%</text><text x="8.0" y="218.0" font-size="15.7" fill="#24211c" text-anchor="start">TP $5 / SL $3</text><rect x="8" y="226" width="412" height="14" fill="#efe8da"/><rect x="8" y="226" width="185.6" height="14" fill="#5b554b"/><rect x="249.0" y="221" width="3" height="24" fill="#b03a1f"/><text x="188.6" y="237.5" font-size="13.4" fill="#f7f3ea" text-anchor="end" font-weight="600" class="mono">40.3%</text><text x="257.5" y="237.5" font-size="13.4" fill="#b03a1f" text-anchor="start" font-weight="600" class="mono">46.5%</text><text x="8.0" y="272.0" font-size="15.7" fill="#24211c" text-anchor="start">TP $5 / SL $7</text><rect x="8" y="280" width="412" height="14" fill="#efe8da"/><rect x="8" y="280" width="251.0" height="14" fill="#5b554b"/><rect x="305.7" y="275" width="3" height="24" fill="#b03a1f"/><text x="254.0" y="291.5" font-size="13.4" fill="#f7f3ea" text-anchor="end" font-weight="600" class="mono">47.4%</text><text x="314.2" y="291.5" font-size="13.4" fill="#b03a1f" text-anchor="start" font-weight="600" class="mono">52.7%</text></svg></div><figcaption><b>ทุกแถวไม่ถึงเส้นแดง</b> win rate จะสูงหรือต่ำขึ้นกับระยะ SL แต่จุดคุ้มทุนก็ขยับตาม ที่มา XAU_SL2_TP5_REPORT.md, XAU_CLOSEBREAK_TP5_REPORT.md</figcaption></figure></div><h2 class="sec">งานในหัวข้อนี้ (4 เรื่อง)</h2><p class="sec-sub">กด "วิธีทดสอบ" เพื่อดูรายละเอียด</p><article class="study"><div class="d">15-16 ต.ค. 2026<br><span class="tag ex">แค่สำรวจ สรุปไม่ได้</span></div><div><h3>สแกนแท่งกลืนกิน 1 วัน (15 ต.ค.)</h3><p class="q">วันที่ 15 ต.ค. แท่งกลืนกินบน M5 วิ่งไปทางสัญญาณไกลแค่ไหน</p><ul><li>เจอ 7 สัญญาณ (ซื้อ 6 ขาย 1)</li><li>สัญญาณซื้อวิ่งไปทางเราเฉลี่ย 2,000 ถึง 2,600 จุด (จุดละ $0.01)</li><li>แต่วันนั้นทองผันผวนมาก (วิ่ง $20 ถึง $50) ไม่ใช่วันปกติ</li></ul><details><summary>วิธีทดสอบ</summary><p>ใช้ข้อมูล Dukascopy ของวันนั้นวันเดียว (276 แท่ง M5) นับแท่งกลืนกินแบบ 1 แท่งเล็ก และ 2 แท่งเล็ก แล้วดูว่าราคาวิ่งต่อกี่จุดใน 12 แท่ง</p></details><p class="src">ที่มา results/reports/XAU_ENGULF_20261015_REPORT.md</p></div></article><article class="study"><div class="d">ราว 16 ต.ค. 2026<br><span class="tag ne">ไม่มีเอดจ์</span></div><div><h3>ปิดทะลุ + TP $5 (ย้อนหลัง 6.8 ปี)</h3><p class="q">ถ้าเข้าทุกสัญญาณปิดทะลุ T1/T2 แล้วตั้ง TP $5 จะกำไรไหม</p><ul><li>73,958 สัญญาณ (ราว 35 ครั้งต่อวัน)</li><li>SL ปลายแท่ง: ชนะ 25.2% แต่ต้องชนะ 31.5% ถึงจะเท่าทุน</li><li>SL $7: ชนะ 47.4% แต่ต้องชนะ 52.7%</li><li>ขาดทุนราว -$0.24 ถึง -$0.50 ต่อไม้ ทุก SL ทุกปี</li></ul><details><summary>วิธีทดสอบ</summary><p>ข้อมูล 2019 ถึง 9 ต.ค. 2025 (2,107 วัน) ลอง SL 4 แบบ: ปลายแท่งสัญญาณ, $3, $5, $7 หักต้นทุน $0.28 ต่อ 0.01 lot</p></details><p class="src">ที่มา results/reports/XAU_CLOSEBREAK_TP5_REPORT.md</p></div></article><article class="study"><div class="d">ราว 16 ต.ค. 2026<br><span class="tag ne">ไม่มีเอดจ์</span></div><div><h3>MFE / MAE ของสัญญาณปิดทะลุ</h3><p class="q">หลังสัญญาณ ราคาวิ่งไปทางเรามากกว่าวิ่งสวนไหม</p><ul><li>24 แท่ง: MFE กลาง $2.34 เทียบ MAE กลาง $2.42 แทบเท่ากัน</li><li>วิ่งไปทางเรา ≥$5: 23.4% วิ่งสวน ≥$5: 23.7%</li><li>ราคาสวนก่อนถึงจุดสูงสุดราว 48% ของครั้ง</li><li>หน้าตาเหมือนการสุ่ม ไม่มีแรงส่งต่อ</li></ul><details><summary>วิธีทดสอบ</summary><p>วัดระยะที่ราคาวิ่งไปทางเรา (MFE) และวิ่งสวน (MAE) ใน 6, 12, 24 แท่ง ของทุกสัญญาณ 2019 ถึง 2025</p></details><p class="src">ที่มา results/reports/XAU_ENGULF_MFE_MAE_REPORT.md</p></div></article><article class="study"><div class="d">ราว 16 ต.ค. 2026<br><span class="tag ne">ไม่มีเอดจ์</span></div><div><h3>SL $2 / TP $5 และตัวกรอง H1</h3><p class="q">SL $2 TP $5 (เสี่ย 1 ได้ 2.5) จะชนะพอไหม ถ้าใส่ตัวกรองเทรนด์ H1 + ย่อตัว M15 จะดีขึ้นไหม</p><ul><li>จุดคุ้มทุน = (2+0.28)/(5+2) = 32.6%</li><li>ไม่กรอง: ชนะ 31.5% ขาดทุนรวม -$24,208 (0.01 lot) ติดลบทุกปี</li><li>กรอง H1: สัญญาณเหลือ 2.2 ต่อวัน ชนะ 30.6% ยังต่ำกว่าคุ้มทุน</li><li>ฝั่งซื้อปี 2024-25 พอเสมอตัว (+$13 จาก 914 ไม้) น่าจะมาจากทองขาขึ้น</li></ul><details><summary>วิธีทดสอบ</summary><p>ทุกสัญญาณ 2019 ถึง 2025 ถือได้สูงสุด 48 แท่ง หักต้นทุน $0.28 แล้วลองแบบมีตัวกรอง H1 BOS + ย่อ 40-60% บน M15</p></details><p class="src">ที่มา results/reports/XAU_SL2_TP5_REPORT.md</p></div></article><div class="pn"><a href="index.html">← สารบัญ</a><a href="mae-mfe.html">MAE / MFE 7 ปี →</a></div>
+<footer><p>ตัวเลขทุกตัวคัดลอกจากไฟล์รายงานของงานแต่ละชิ้น ไม่ได้คำนวณใหม่ ยกเว้นสัดส่วนสัญญาณสด 99/192 ที่นับจาก signals.csv และเส้นจุดคุ้มทุนในหน้าบทเรียนที่คำนวณจากสูตร</p>
+<p>ทั้งหมดเป็นการทดสอบย้อนหลังหรือบัญชีเดโม (IC Markets MT5 demo และ IQ Option PRACTICE) ไม่มีการเทรดเงินจริง และไม่ใช่คำแนะนำการลงทุน</p>
+<p><a href="old/index_v1.html">หน้าเวอร์ชันเก่า (ยาวหน้าเดียว)</a></p></footer>
+</div></body></html>
