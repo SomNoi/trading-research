@@ -21,4 +21,5 @@ Totals: 925 trials logged (Bonferroni z ≈ 3.87). Data is Dukascopy mid, which 
 
 ## Classic candles Track B (2026-10-29)
 Pin bar (V0/V1), inside bar, doji on XAUUSD M5: **FAIL / NO EDGE** (hold PF 0.77–0.86 after $0.28; hit≈50%; MFE≈MAE). See classic_candles/REPORT.md. Trials 925→937.
-Still never studied as a dedicated system: **morning star / evening star**. (Engulfing was studied earlier: NO EDGE.)
+Morning/evening star (MES_V0, MES_V1 EMA5 trend filter) XAUUSD M5: **FAIL / NO EDGE** (hold PF 0.76–0.80 after $0.28; hit≈49%; MFE≈MAE). See classic_candles/MES_REPORT.md. Trials 937→943.
+No classic candle pattern remains unstudied (engulfing earlier: NO EDGE).

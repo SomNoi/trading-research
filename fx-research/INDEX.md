@@ -100,7 +100,7 @@ All 15 prereg/*.md have a matching report: NYBO→NYBO report; TRACK3_DEFINITION
 | **Pin bar / hammer / shooting star** | YES (2026-10-29) | classic_candles/ — FAIL / NO EDGE (was NEVER before this study; mae-pla PAT1 alone did not count) |
 | **Doji** | YES (2026-10-29) | classic_candles/ — FAIL / NO EDGE |
 | **Inside bar** | YES (2026-10-29) | classic_candles/ — FAIL / NO EDGE |
-| **Morning star / evening star** | **NEVER** | – |
+| **Morning star / evening star** | YES (2026-10-29) | classic_candles/MES_REPORT.md — FAIL / NO EDGE (was NEVER before this study) |
 | Engulfing | YES | engulf_watch, maemfe (NO EDGE), XAU_CLOSEBREAK_TP5 / SL2_TP5 (NO EDGE), MFE_MAE + 2026-10-15 scan (descriptive) |
 
 ## Classic candles study (Track B, 2026-10-29) — DONE after catalog
@@ -109,4 +109,7 @@ All 15 prereg/*.md have a matching report: NYBO→NYBO report; TRACK3_DEFINITION
 | Classic pin/inside/doji | classic_candles/REPORT.md | XAUUSD M5 | Pin V0/V1, inside bar, doji; hit-rate horizons + MFE/MAE; 1R:1R & ATR exits after $0.28 cost | **FAIL / NO EDGE** (all 4 sets) | hold PF E1 0.77–0.83, E2 0.84–0.86; hit≈50%; MFE≈MAE ~$3.5 | fbbf03ee… (CLASSIC_CANDLES_PREREG) |
 | Classic EXEC | classic_candles/EXEC_SUMMARY.md | — | short summary | FAIL | 12 trials added; N_TRIALS now 937 | frozen fc8de240… |
 
-Morning/evening star remain NEVER studied as dedicated systems.
+| Morning/evening star | classic_candles/MES_REPORT.md | XAUUSD M5 | MES_V0 (no filter), MES_V1 (EMA5 prior-trend); 3-bar star, midpoint-substitute for gap | **FAIL / NO EDGE** (both sets) | hold PF E1 0.76–0.79, E2 0.79–0.80; hit≈49%; MFE≈MAE ~$3.5 | 665bca26… (MORNING_EVENING_STAR_PREREG) |
+| MES EXEC | classic_candles/MES_EXEC_SUMMARY.md | — | short summary | FAIL | 6 trials added; N_TRIALS now 943 | frozen 37a71cc2… |
+
+All classic candle patterns in this catalog (pin, doji, inside, morning/evening star, engulfing) have now been studied: all NO EDGE.
