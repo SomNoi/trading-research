@@ -6,3 +6,4 @@ No secrets, tokens or broker passwords are stored in any of these.
 
 **Update 2026-10-29:** Track A INDEX filled (see INDEX.md, CATALOG_EXEC.md); Track B classic candles FAIL — see classic_candles/
 **Update 2026-10-29:** morning/evening star FAIL — see classic_candles/MES_* files
+**Update 2026-10-29:** combo MTF FAIL — stacking did not help; see combo_mtf/

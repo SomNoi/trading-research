@@ -23,3 +23,5 @@ Totals: 925 trials logged (Bonferroni z ≈ 3.87). Data is Dukascopy mid, which 
 Pin bar (V0/V1), inside bar, doji on XAUUSD M5: **FAIL / NO EDGE** (hold PF 0.77–0.86 after $0.28; hit≈50%; MFE≈MAE). See classic_candles/REPORT.md. Trials 925→937.
 Morning/evening star (MES_V0, MES_V1 EMA5 trend filter) XAUUSD M5: **FAIL / NO EDGE** (hold PF 0.76–0.80 after $0.28; hit≈49%; MFE≈MAE). See classic_candles/MES_REPORT.md. Trials 937→943.
 No classic candle pattern remains unstudied (engulfing earlier: NO EDGE).
+## Combo MTF (2026-10-29)
+H1 EMA55 bias + M5 pin/engulf ± RSI14 XAUUSD: **FAIL / NO EDGE** (hold PF 0.72–0.85 after $0.28). Does stacking help? **No** — same losing PF band as stand-alone candles. See combo_mtf/REPORT.md. Trials 943→955.
