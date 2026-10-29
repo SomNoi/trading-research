@@ -3,3 +3,5 @@
 2. **GitHub** (any agent): https://github.com/SomNoi/trading-research/tree/main/fx-research — text snapshot only.
 3. **Notion** (Agent Brain → FX Research archive (2026-10-29)): https://app.notion.com/p/4086a0d1ad7081fa9acbfc100c9438f2
 No secrets, tokens or broker passwords are stored in any of these.
+
+**Update 2026-10-29:** Track A INDEX filled (see INDEX.md, CATALOG_EXEC.md); Track B classic candles FAIL — see classic_candles/
