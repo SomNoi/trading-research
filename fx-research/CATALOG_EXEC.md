@@ -26,3 +26,4 @@ No classic candle pattern remains unstudied (engulfing earlier: NO EDGE).
 ## Combo MTF (2026-10-29)
 H1 EMA55 bias + M5 pin/engulf ± RSI14 XAUUSD: **FAIL / NO EDGE** (hold PF 0.72–0.85 after $0.28). Does stacking help? **No** — same losing PF band as stand-alone candles. See combo_mtf/REPORT.md. Trials 943→955.
 - 2026-10-30 xau_m1_edge_20261030 (25 human-behavior M1 hyps, $0.65 cost): **NO EDGE**, 0/25 pass, best OOS PF 0.83 (PDL fake-break); +125 trials.
+- 2026-10-30 xau_m1_edge_20261030_cost028 (same 25 hyps, $0.28 cost): **NO EDGE**, 0/25 pass, best OOS PF 1.018 (PDL fake, n=253, +$8.2/oz, sens min 0.83); +125 trials (1080→1205).
