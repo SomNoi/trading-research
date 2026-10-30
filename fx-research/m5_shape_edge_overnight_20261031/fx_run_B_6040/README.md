@@ -1,0 +1,1 @@
+Re-run: `cd fx_run_B_6040 && python3 main.py` (~10 s). Outputs: summary.csv (440 trials, all stats + sensitivity), clusters_w*_t*.csv, sequence_contingency.csv.gz (full IS/OOS tables L3-5 × N1/3/5/10), top40_sequences_IS_vs_OOS.csv, bar_class_counts.csv, eq_*.png, run.log. Prereg: ../PREREG.md (locked).
