@@ -114,3 +114,4 @@ All 15 prereg/*.md have a matching report: NYBO→NYBO report; TRACK3_DEFINITION
 
 All classic candle patterns in this catalog (pin, doji, inside, morning/evening star, engulfing) have now been studied: all NO EDGE.
 | Combo MTF (H1 EMA55 bias + M5 PIN/ENGULF ± RSI14) | combo_mtf/REPORT.md | XAUUSD M5/H1 | PIN_F0/F1, ENGULF_F0/F1 × E1/E2 | **FAIL / NO EDGE** (all 4) | hold PF 0.72–0.85; hit≈50%; stacking did not help | c4a31bd3… (COMBO_MTF_PREREG) |
+| xau_m1_edge_20261030 | xau_m1_edge_20261030/report.md | XAU M1 | 25 human-behavior hyps (sweep/exhaustion/session-open/MR), SL3.5 TP1.5R, $0.65 cost | FAIL (NO EDGE) | OOS PF 0.47–0.83, 0/25 pass | xau_m1_edge_20261030/PREREG.md |
