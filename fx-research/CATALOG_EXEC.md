@@ -28,3 +28,5 @@ H1 EMA55 bias + M5 pin/engulf ± RSI14 XAUUSD: **FAIL / NO EDGE** (hold PF 0.72�
 - 2026-10-30 xau_m1_edge_20261030 (25 human-behavior M1 hyps, $0.65 cost): **NO EDGE**, 0/25 pass, best OOS PF 0.83 (PDL fake-break); +125 trials.
 - 2026-10-30 xau_m1_edge_20261030_cost028 (same 25 hyps, $0.28 cost): **NO EDGE**, 0/25 pass, best OOS PF 1.018 (PDL fake, n=253, +$8.2/oz, sens min 0.83); +125 trials (1080→1205).
 - 2026-10-30 xau_m5_edge_20261030_cost028 (25 hyps on M5, $0.28): **NO EDGE**, 0/25 pass, best OOS PF 1.09 (LDN FVG, n=350, +$62.5/oz, WR 46.6%, sens min 0.08, IS PF 0.85); +125 trials (1205→1330).
+- 2026-10-30 xau_m15_edge_20261030_cost028 (25 hyps on M15, $0.28): **NO EDGE**, 0/25 pass, best OOS PF 1.13 (19_ASIA_DRIVE, n=171, +$44.9/oz, WR 46.2%, sens min 0.02); +125 trials (report: N_TRIALS 1455).
+- 2026-10-30 xau_h1_edge_20261030_cost028 (25 hyps on H1, $0.28): **NO EDGE**, 0/25 pass, best OOS PF 1.17 (04_EQL_SWEEP, n=85, +$28.7/oz, WR 47.1%, sens min 0.16, IS PF 0.70); +125 trials (report: N_TRIALS 1455).
