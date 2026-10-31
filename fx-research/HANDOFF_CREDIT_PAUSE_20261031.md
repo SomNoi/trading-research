@@ -256,3 +256,13 @@ Full xau_m5 list:
 - Silent to user; report EN to dr eggbot only
 - Prefer ไม่เจอ over fake edges; prereg first; no martingale/grid
 - Do not start rounds until user/dr eggbot says resume after credit reset
+
+
+## Archive results (2026-10-31 ~17:10 ICT)
+- GitHub tip after push: `016c5e41416adf80aedcf17d7caac78eb8695680` on `main`
+- https://github.com/SomNoi/trading-research/tree/main/fx-research
+- https://github.com/SomNoi/trading-research/blob/main/fx-research/HANDOFF_CREDIT_PAUSE_20261031.md
+- Notion: https://app.notion.com/p/40a6a0d1ad7081c69f7ef420c9cab47e
+- Pushed: HANDOFF, INDEX, CATALOG_EXEC, RECOVERY, STATUS, results/multiple_testing.json, PREREG_MANIFEST_20261031.tsv, LATE_ROUNDS_REPORT_DIGEST_R170_R191.md, R94 PREREG/REPORT, R191 PREREG/REPORT
+- **NOT pushed:** full 187 round folders (run.py/results.json per round) — remain on box `/workspace/fx-research/`; resume can batch later
+- Hourly status routine **deleted**
