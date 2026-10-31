@@ -135,3 +135,7 @@ Part 1: only 36.8% of days within ±20% of ADR14; E≈ADR−X is worse than a co
 ## 2026-10-16 BIAS DEMO (deliberately biased, not a strategy): biased +$33.4/0.01lot vs honest -$128 (PF 0.19); OOS -$50. 2 BIAS_DEMO trials; report results/reports/XAU_BIAS_DEMO_REPORT.md
 
 ## 2026-10-16 XAU FUZZY (prereg ecede349): NO EDGE. 96 IS configs all net<0 on 2022 val; finalist OOS 974 tr, net -$0.33/tr, PF 0.75, all years neg. N_TRIALS 917. Holdout unused.
+
+
+## CREDIT PAUSE 2026-10-31 ~17:10 ICT
+Hunt stopped at R191 / N_TRIALS 5698. See HANDOFF_CREDIT_PAUSE_20261031.md. No new rounds until resume.
