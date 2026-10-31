@@ -1,0 +1,21 @@
+{
+  "N_TRIALS": 2930,
+  "V_SR": 0.018577849648022556,
+  "V_SR_POOLED": 0.00483365454487434,
+  "Z_BONF": 4.144001889705463,
+  "note_20261031": "+440 run B (fx_run_B_6040) +360 run A (exec_run_A_7030), bumped together by run B",
+  "note_m5_motif5_novel_20261031": "+105 exploratory (freq filter amend to 0.10\u20132.0/day); primary prereg had 0 motifs at 0.5\u20132/day",
+  "note_xau_h1_m5_structure_20261031": "+16 prereg (BOS/CHoCH \u00d7 ENGULF/microBOS \u00d7 E1/E2 \u00d7 session)",
+  "note_xau_m5_session_open_imb_20261031": "+24 Round1 session-open imbalance",
+  "note_xau_m5_session_vwap_band_20261031": "+16 Round2 session VWAP bands",
+  "note_xau_m5_atr_regime_lib_20261031": "+16 prereg grid (fleet xau-m5-atr-regime-lib-20261031)",
+  "note_xau_m5_nr_breakout_20261031": "+16 Round4 NR-K breakout",
+  "note_xau_m5_composite_q4_ldn_20261031": "+10 Round5 composite (ATR Q4+LDN x VWAP_MR/NR7_FAILFADE/EXH_FADE x TOD)",
+  "note_xau_m5_tickvol_climax_20261031": "+16 Round6 tickvol climax (Asia ORB superseded)",
+  "note_xau_m5_tod_calendar_20261031": "+16 Round7 TOD x weekday calendar (IS-locked buckets)",
+  "note_xau_m5_h4_ema_pullback_20261031": "+16 Round8 H4 EMA50 bias + M5 EMA20 reclaim",
+  "note_xau_m5_close_streak_20261031": "+12 Round9 close-streak CONT/FADE",
+  "note_xau_m5_feature_stump_20261031": "+9 Round10 feature stump/ridge logit x tau",
+  "note_xau_m5_usdjpy_residual_20261031": "+12 Round11 XAU-USDJPY residual",
+  "note_xau_m5_parkinson_div_20261031": "+16 Round12 Parkinson/CC divergence"
+}
