@@ -1,0 +1,4 @@
+# ARCHIVE R236 (2026-11-01, FX-Research)
+N 6378 → 6394 (+16). Z_bonf 4.319 one-sided. XAU IC BID, cost $0.28/0.01, 60/40 by day (cut 2026-03-18), PREREG locked (444+sha256). No demo.
+- R236 xau_m5_common_feat_dir_20261101 — Shared pre-entry features (hour, sess, tvr, rng/ATR, bf, wicks, streak, PDH/PDL dist, moh, same/size2/1) selected IS for DIRECTION on large-move bars, pooled + ≥3/4 families; gates G1=hour03 UTC, G2=hour03∧tvr q40–60 → entry bar2/bar3 OPEN CONT/FADE, TP5/SL4 & TP10/SL5, single-bar — ไม่เจอ. best B2 G2 FADE TP5 SL4 OOS E+0.014R ($+0.06/0.01lot) PF1.04 z0.15 n72 (IS E-0.037R n165); OOS>0 2/16; gate-PASS 0/16; Z_bonf 4.319; N=6394. Direction hit: baseline IS 0.492/OOS 0.489 (big-target 0.502/0.492); G1 OOS 0.503 (big 0.501); max IS lift 5.6pp did not survive OOS.
+Takeaway: no pre-entry feature (hour/session/tickvol/range-ATR/body-frac/wicks/streak/PDH-PDL/minute/same-color/size ratio) moves direction off ~50% OOS; R233–R236 series closed ไม่เจอ.
