@@ -1,0 +1,2 @@
+# R245 EXEC SUMMARY
+- R245 xau_m5_post_bigdown_split_20261102 — Post big down D1 (r<0, |r|≥p90 trailing60 lagged) next UTC day: A FADE long 07–10 / B CONT short 12–16, entry window open (λ0) or after first |C−O|≥0.3ATR bar, SL$4/8 TP1.5/2×SL, exit window end — ไม่เจอ. best arm=A_fade_ldn lam=0.0 SL=4 TPm=2.0 OOS E+0.930R ($+3.72/0.01lot) PF3.61 z1.47 n6 (IS E-1.070R n6); OOS>0 8/16; gate-PASS 0/16; Z_bonf 4.324; N=6534.
