@@ -1,0 +1,2 @@
+# R244 EXEC SUMMARY
+- R244 xau_m5_htf_ma_retest_short_20261102 — Below slow HTF MA (SMA/EMA50 on completed D1/H4): M5 first touch from below (H≥MA, prior H<MA, prior C<MA) + reject (C<mid or C<MA) → short next open, SL max(H,MA)+0.5, TP1.5/2R T12 — ไม่เจอ. best MA=SMA50 TF=4h TPm=2.0 sess=LDNNY OOS E-0.075R ($+0.38/0.01lot) PF0.90 z-0.33 n39 (IS E-0.203R n67); OOS>0 0/16; gate-PASS 0/16; Z_bonf 4.324; N=6518.
