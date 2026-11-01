@@ -1,0 +1,1 @@
+AMENDMENT (engine bug only, protocol unchanged): eng.py ts was in microseconds -> 0 trades; fixed to seconds. new eng.py sha: fba46eee440f9092b3a2f8158ec15f1dd4ef655a04c4132d249914067e2551c7  xau_m5_news_vol_clock_3r_20261101/eng.py
