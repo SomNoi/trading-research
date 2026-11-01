@@ -1,0 +1,2 @@
+# R243 EXEC SUMMARY
+- R243 xau_m5_waterfall_fade_20261102 — HTF waterfall (≥N consecutive bear bars body/range≥0.6 on H1/H4) → FADE long on first M5 small-body≤0.4 or lower-wick≥0.6 in next TF bar, SL low−0.5, TP1.5/2R T12 — ไม่เจอ. best TF=1h N=4 trig=wick60 TPm=1.5 OOS E+nanR ($+nan/0.01lot) PFnan znan n0 (IS E+nanR n0); OOS>0 0/16; gate-PASS 0/16; Z_bonf 4.323; N=6502. Note: streak counts (β0.6) H1 len1/2/3/≥4 = 1091/154/14/0; H4 = 273/35/4/1 → N≥4 waterfall almost never occurs on XAU (≤1 arm in 17 months) → untestable.

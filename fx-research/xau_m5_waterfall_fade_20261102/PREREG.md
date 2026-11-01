@@ -1,0 +1,6 @@
+# R243 PREREG — Waterfall exhaustion FADE (long only)
+Written 2026-11-02 ~01:30 ICT before any outcome scoring. Data IC BID XAUUSD_M5.csv (time_utc as UTC). HTF bars (H1/H4/D1 UTC) resampled from the same M5; an HTF bar is usable only from the first M5 bar after its close (no lookahead). Cost $0.28/0.01lot RT. 60/40 split by unique UTC day (same cut as R237–R242). Entry at bar OPEN; SL/TP intrabar, both in same bar → SL first; time exit at close of last bar. One position at a time. Soft PASS: PF_OOS≥1.2, n_OOS≥50, E_IS>0, E_OOS>0. Z one-sided norm.isf(0.05/N). Prefer ไม่เจอ. No demo.
+Setup: on completed TF bars (H1 or H4), streak = consecutive bear bars (C<O) with body/range ≥ 0.6. When streak reaches exactly Nk (on bar close), arm FADE long; armed window = M5 bars inside the next TF bar.
+Trigger: first M5 bar in window with body/range ≤ 0.4 (small40) OR lower wick ≥ 0.60·range (wick60) [variant chooses one]. Entry next M5 OPEN. SL = trigger-bar low − 0.50. TP = m·R. Time stop T12 M5. One trigger per arm.
+Grid 16 = TF{H1,H4} × Nk{4,5} × trig{wick60,small40} × m{1.5,2.0}; β=0.6 fixed. Short waterfall not tested.
+N 6486 → 6502. ≠ pin alone (HTF waterfall context required), ≠ R216 PA@SR.
