@@ -1,8 +1,8 @@
 {
- "N_TRIALS": 6394,
+ "N_TRIALS": 6534,
  "V_SR": 0.018577849648022556,
  "V_SR_POOLED": 0.00483365454487434,
- "Z_BONF": 4.319,
+ "Z_BONF": 4.324,
  "note_20261031": "+440 run B (fx_run_B_6040) +360 run A (exec_run_A_7030), bumped together by run B | R30 CCI20 extreme +16 -> 3218",
  "note_m5_motif5_novel_20261031": "+105 exploratory (freq filter amend to 0.10\u20132.0/day); primary prereg had 0 motifs at 0.5\u20132/day",
  "note_xau_h1_m5_structure_20261031": "+16 prereg (BOS/CHoCH \u00d7 ENGULF/microBOS \u00d7 E1/E2 \u00d7 session)",
@@ -234,5 +234,6 @@
  "note_xau_m5_color_pairs_3r_20261101": "+16 R233 prereg grid",
  "note_xau_m5_same_color_bar2open_20261101": "R234 +16 trials (Setup G1/R1 x CONT/FADE x TP5/10 x SL2/4, entry bar2 open). 0/16 PASS. N 6346->6362.",
  "note_xau_m5_bar12_pred_bar3_20261101": "R235 +16 trials (S1-S4 bar1+bar2 setups x CONT/FADE x TP5SL2/TP10SL4, entry bar3 open, exit bar3 close). 0/16 PASS. N 6362->6378.",
- "note_xau_m5_common_feat_dir_20261101": "R236 +16 trials (Entry B2/B3 x CONT/FADE x (TP5,SL4)/(TP10,SL5) x Gate G1/G2 from IS pooled direction-lift selection). 0/16 PASS. N 6378->6394."
+ "note_xau_m5_common_feat_dir_20261101": "R236 +16 trials (Entry B2/B3 x CONT/FADE x (TP5,SL4)/(TP10,SL5) x Gate G1/G2 from IS pooled direction-lift selection). 0/16 PASS. N 6378->6394.",
+ "note_R243_R245_20261102": "reconciled stale 6394 \u2192 INDEX tip 6486 (R242); +16 R243 +16 R244 +16 R245 \u2192 6534"
 }
