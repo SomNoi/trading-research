@@ -1,0 +1,2 @@
+# R246b EXEC — ไม่เจอ
+Q: did price continue, or was the SL too tight? A: price did not continue. Direction is about 49% at 30/60/120m, MFE≈MAE, and favorable-first ($1) is only 35%. SL-hit→TP-within-2h is high (PIN about 45–50%, DOJI about 70%), but that is noise against a tight stop. Widening the SL gives 0/64 IS-positive cells and best OOS +$0.17/0.01 at Z 0.34 (DOJI k2 SL$10 TP2R, IS −$0.29). N=6614.

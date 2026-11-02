@@ -1,0 +1,5 @@
+# R246b PREREG — follow-up on R246 signals
+Same data, timestamp audit (label=server−3h), 60/40 day split (cut 2026-03-19), cost $0.28/0.01 as R246.
+(1) Descriptive (no trials): union of 4 R246 signal sets (PIN/DOJI × k2/k3), deduped on (entry bar, dir), no position overlap filter. Entry open e. Signed move dir·(close of bar e+5/11/23 − entry) [=30/60/120m]; % >0; median/mean $. MFE/MAE ($, from bar highs/lows) over 12 and 24 bars; % where +$1 favorable reached before −$1 adverse (same-bar tie = adverse). Per IS/OOS.
+(2) For each of 16 R246 variant trade lists: among SL-hit trades, % whose original TP level was touched within 24 bars (2h) from entry bar (bars e..e+23).
+(3) Counted sweep: signal sets PIN+k2, DOJI+k2. SL ∈ {extreme ∓ m·0.5·ATR14 (m=1,1.5,2,3; ATR at exhaustion bar), fixed $3/$5/$8/$10 from entry} × TP ∈ {1.5R, 2R, fixed $5, fixed $10} → 2×8×4 = 64 cells, N += 64. Time exit 24 bars (2h), SL-first same bar, one position at a time. Gate: OOS E>0, IS E>0, OOS n≥100, OOS Z ≥ Z_BONF(N=6614), 1.5× cost >0.
