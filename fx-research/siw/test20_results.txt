@@ -1,0 +1,44 @@
+[abc             ] signals 229 (S148/B81)  catch exact 17/20 ±1 17/20 | all: n=229 TP69/SL153/TO7 win 30% net $-128.34/0.01 || S: n=148 TP52/SL89/TO7 win 35% net $+44.34/0.01 | B: n=81 TP17/SL64/TO0 win 21% net $-172.68/0.01
+[abc dd3         ] signals 131 (S86/B45)  catch exact 6/20 ±1 14/20 | all: n=131 TP39/SL88/TO4 win 30% net $-80.66/0.01 || S: n=86 TP29/SL53/TO4 win 34% net $+6.94/0.01 | B: n=45 TP10/SL35/TO0 win 22% net $-87.60/0.01
+[bc              ] signals 100 (S70/B30)  catch exact 14/20 ±1 15/20 | all: n=100 TP28/SL68/TO4 win 28% net $-82.65/0.01 || S: n=70 TP23/SL43/TO4 win 33% net $+0.75/0.01 | B: n=30 TP5/SL25/TO0 win 17% net $-83.40/0.01
+[a               ] signals 139 (S85/B54)  catch exact 5/20 ±1 15/20 | all: n=139 TP43/SL93/TO3 win 31% net $-68.49/0.01 || S: n=85 TP31/SL51/TO3 win 36% net $+36.63/0.01 | B: n=54 TP12/SL42/TO0 win 22% net $-105.12/0.01
+[b               ] signals  72 (S49/B23)  catch exact 12/20 ±1 12/20 | all: n=72 TP19/SL49/TO4 win 26% net $-69.81/0.01 || S: n=49 TP14/SL31/TO4 win 29% net $-23.37/0.01 | B: n=23 TP5/SL18/TO0 win 22% net $-46.44/0.01
+[c               ] signals  61 (S38/B23)  catch exact 12/20 ±1 13/20 | all: n=61 TP18/SL42/TO1 win 30% net $-46.08/0.01 || S: n=38 TP15/SL22/TO1 win 39% net $+30.36/0.01 | B: n=23 TP3/SL20/TO0 win 13% net $-76.44/0.01
+[ab              ] signals 206 (S130/B76)  catch exact 16/20 ±1 17/20 | all: n=206 TP61/SL138/TO7 win 30% net $-126.90/0.01 || S: n=130 TP44/SL79/TO7 win 34% net $+19.38/0.01 | B: n=76 TP17/SL59/TO0 win 22% net $-146.28/0.01
+[ac              ] signals 193 (S119/B74)  catch exact 15/20 ±1 15/20 | all: n=193 TP59/SL130/TO4 win 31% net $-107.61/0.01 || S: n=119 TP44/SL71/TO4 win 37% net $+58.11/0.01 | B: n=74 TP15/SL59/TO0 win 20% net $-165.72/0.01
+[bc              ] signals 100 (S70/B30)  catch exact 14/20 ±1 15/20 | all: n=100 TP28/SL68/TO4 win 28% net $-82.65/0.01 || S: n=70 TP23/SL43/TO4 win 33% net $+0.75/0.01 | B: n=30 TP5/SL25/TO0 win 17% net $-83.40/0.01
+[abc+zone3       ] signals  68 (S33/B35)  catch exact 3/20 ±1 7/20 | all: n=68 TP19/SL48/TO1 win 28% net $-66.69/0.01 || S: n=33 TP11/SL21/TO1 win 33% net $-1.89/0.01 | B: n=35 TP8/SL27/TO0 win 23% net $-64.80/0.01
+[abc+touch       ] signals 228 (S147/B81)  catch exact 17/20 ±1 17/20 | all: n=228 TP68/SL153/TO7 win 30% net $-138.06/0.01 || S: n=147 TP51/SL89/TO7 win 35% net $+34.62/0.01 | B: n=81 TP17/SL64/TO0 win 21% net $-172.68/0.01
+[abc+zone3+touch ] signals  68 (S33/B35)  catch exact 3/20 ±1 7/20 | all: n=68 TP19/SL48/TO1 win 28% net $-66.69/0.01 || S: n=33 TP11/SL21/TO1 win 33% net $-1.89/0.01 | B: n=35 TP8/SL27/TO0 win 23% net $-64.80/0.01
+[abc ext5        ] signals 114 (S62/B52)  catch exact 10/20 ±1 11/20 | all: n=114 TP30/SL80/TO4 win 26% net $-125.49/0.01 || S: n=62 TP21/SL37/TO4 win 34% net $+14.07/0.01 | B: n=52 TP9/SL43/TO0 win 17% net $-139.56/0.01
+[abc ext15       ] signals 298 (S204/B94)  catch exact 18/20 ±1 18/20 | all: n=298 TP90/SL201/TO7 win 30% net $-177.66/0.01 || S: n=204 TP73/SL124/TO7 win 36% net $+63.66/0.01 | B: n=94 TP17/SL77/TO0 win 18% net $-241.32/0.01
+
+Per pick (abc default):
+11-03 13:50 S Y B_ENGULF 
+11-03 12:00 S Y B_ENGULF 
+11-03 04:55 S Y B_ENGULF 
+11-02 23:50 S Y B_ENGULF 
+11-02 23:15 S Y B_ENGULF 
+11-02 22:05 S Y B_ENGULF 
+11-02 19:50 B Y B_ENGULF 
+11-02 14:05 B Y B_ENGULF 
+11-02 11:10 S Y A_PIN 
+11-02 10:00 S Y A_PIN 
+11-02 06:00 B Y B_ENGULF 
+10-30 18:00 S Y A_PIN 
+10-30 14:05 S Y A_PIN 
+10-30 05:15 S Y C_STAR 
+10-29 23:55 B Y B_ENGULF 
+10-29 18:35 S - EXT>10 pattern=A_PIN legdist=12.81 EMAdir=S bar o4024.76 h4026.59 l4024.24 c4024.53 | prev o4022.89 h4026.57 l4022.36 c4024.80
+10-29 15:15 S Y A_PIN 
+10-29 10:10 S Y B_ENGULF 
+10-29 08:20 S - NO PATTERN pattern=None legdist=1.87 EMAdir=S bar o4045.34 h4045.51 l4043.32 c4043.93 | prev o4043.11 h4045.80 l4042.12 c4044.47
+10-29 04:45 B - EXT>10 pattern=A_PIN legdist=19.64 EMAdir=B bar o4055.36 h4056.93 l4050.61 c4055.62 | prev o4055.28 h4056.59 l4053.05 c4055.49
+
+His 20 as given (entry = open of listed+1, dir = EMA rule): n=20 TP10/SL9/TO1 win 50% net $+50.44/0.01 || S: n=15 TP9/SL5/TO1 win 60% net $+61.84/0.01 | B: n=5 TP1/SL4/TO0 win 20% net $-11.40/0.01
+v2 signals matching his picks: n=17 TP7/SL9/TO1 win 41% net $+21.28/0.01
+v2 signals NOT in his picks: n=212 TP62/SL144/TO6 win 29% net $-149.61/0.01
+ALL v2 abc: n=229 TP69/SL153/TO7 win 30% net $-128.34/0.01 || S: n=148 TP52/SL89/TO7 win 35% net $+44.34/0.01 | B: n=81 TP17/SL64/TO0 win 21% net $-172.68/0.01
+ac:  n=193 TP59/SL130/TO4 win 31% net $-107.61/0.01
+bc:  n=100 TP28/SL68/TO4 win 28% net $-82.65/0.01
+abc+zone3:  n=68 TP19/SL48/TO1 win 28% net $-66.69/0.01
