@@ -4,6 +4,7 @@
 input bool UseA=true, UseB=true, UseC=true, UseZone=false;
 input double StarBody=0.40, PinWick=0.50, PinBody=0.35, WickTol=0.30, EngTol=0.10, MaxExt=10.0, ZoneMax=3.0;
 input int LegLen=12;
+input double V4SL=10.0, V4TP=20.0; input int V4Bars=2; // v4 exit (2026-11-04, current): SL $10, TP $20 cap, close at close of L+2 (10 min). Alert only.
 input double V3SL=5.0, V3TP=20.0, V3Trail=3.0; input int V3AfterBars=3; input bool V3BE=false; // v3 exit (alert text only; manage manually)
 int h21, h55; datetime lastBar=0;
 int OnInit(){ h21=iMA(_Symbol,PERIOD_M5,21,0,MODE_EMA,PRICE_CLOSE); h55=iMA(_Symbol,PERIOD_M5,55,0,MODE_EMA,PRICE_CLOSE); return INIT_SUCCEEDED; }
@@ -30,7 +31,7 @@ bool Sig(int k,bool sell){ // k = confirm bar shift (closed)
 }
 int OnCalculate(const int rates_total,const int prev_calculated,const datetime &time[],const double &open[],const double &high[],const double &low[],const double &close[],const long &tv[],const long &v[],const int &sp[]){
   datetime t=iTime(_Symbol,PERIOD_M5,0); if(t==lastBar) return rates_total; lastBar=t;
-  if(Sig(1,true) )  Alert("SIW2 SELL ",_Symbol," entry ~",DoubleToString(iOpen(_Symbol,PERIOD_M5,0),2)," SL+",DoubleToString(V3SL,1)," TP-",DoubleToString(V3TP,1)," then trail $",DoubleToString(V3Trail,1)," after ",V3AfterBars*5,"min",(V3BE?" +BE":""));
-  if(Sig(1,false)) Alert("SIW2 BUY ",_Symbol," entry ~",DoubleToString(iOpen(_Symbol,PERIOD_M5,0),2)," SL-",DoubleToString(V3SL,1)," TP+",DoubleToString(V3TP,1)," then trail $",DoubleToString(V3Trail,1)," after ",V3AfterBars*5,"min",(V3BE?" +BE":""));
+  if(Sig(1,true) )  Alert("SIW2 SELL ",_Symbol," entry ~",DoubleToString(iOpen(_Symbol,PERIOD_M5,0),2)," SL+",DoubleToString(V4SL,1)," TP-",DoubleToString(V4TP,1)," close after ",V4Bars*5,"min");
+  if(Sig(1,false)) Alert("SIW2 BUY ",_Symbol," entry ~",DoubleToString(iOpen(_Symbol,PERIOD_M5,0),2)," SL-",DoubleToString(V4SL,1)," TP+",DoubleToString(V4TP,1)," close after ",V4Bars*5,"min");
   return rates_total;
 }

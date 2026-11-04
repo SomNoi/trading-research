@@ -27,3 +27,8 @@ Bar L = CONFIRM bar (= the trader's listed time). Entry = OPEN of L+1.
 SL $5 / TP $20 from entry. After 3 bars (15 min) still open → trailing stop = best price since entry ∓ trail ($2/$3/$5), never looser than SL; optional BE (stop ≥ entry). Bar-by-bar, SL before TP in same bar. Results: exit_v3.md.
 ไทย: SL $5 / TP $20, ครบ 15 นาทียังไม่ปิด → เปิด Trailing stop ตามราคาที่ดีที่สุดตั้งแต่เข้า (ห่าง $2/$3/$5), ตัวเลือกเลื่อน SL ไปจุดทุน.
 Run: `python3 siw.py duka_xau_m5_bid.csv --exit v3 --trail 3 [--be]`
+
+## Exit v4 (2026-11-04, CURRENT) / ทางออก v4 (ใช้ปัจจุบัน)
+SL $10 / TP $20 (safety cap) from entry (= open of L+1). Close by time at the CLOSE of bar L+2 (10 min after entry), whichever comes first. Bar by bar over L+1, L+2: SL checked before TP (worst case); gap through a level fills at bar open. Cost $0.28 per 0.01. Replaces v3 for alerts/app. Results: exit_v4.md (in-sample).
+ไทย: SL $10 / TP $20 (กันไว้) จากราคาเข้า (เปิดแท่ง L+1). ครบ 10 นาที = ปิดที่ราคาปิดแท่ง L+2 (แท่งที่ 2 หลังเข้า) อะไรถึงก่อนปิดก่อน. แท่งเดียวชนทั้ง SL/TP นับ SL.
+Run: `python3 siw.py duka_xau_m5_bid_refreshed.csv --exit v4` · `python3 exit_v4.py`

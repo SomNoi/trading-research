@@ -14,6 +14,7 @@ P = dict(
   tp=10.0, sl=5.0, cost=0.28, timeout=48,
   exit='fixed',       # 'fixed' (tp/sl above) or 'v3'
   v3_sl=5.0, v3_tp=20.0, v3_after=3, v3_trail=3.0, v3_be=False,  # v3: after N bars trail from best price; optional BE
+  v4_sl=10.0, v4_tp=20.0, v4_bars=2,  # v4 (2026-11-04, CURRENT): SL $10, TP $20 cap, close at close of L+2 (10 min after entry)
 )
 def load(path):
     df = pd.read_csv(path); df['utc'] = pd.to_datetime(df.t, unit='ms')
@@ -90,14 +91,29 @@ def outcome_v3(df, ie, d, p=P):
         best = max(best, b.h) if sg > 0 else min(best, b.l)
     j = min(ie + p['timeout'], len(df)) - 1
     return 'TO', sg*(df.loc[j].c - e) - p['cost']
+def outcome_v4(df, ie, d, p=P):
+    """v4 (current, user decision 2026-11-04): entry = open of bar ie (=L+1). For bars ie..ie+v4_bars-1: SL v4_sl checked
+    first (worst case), then TP v4_tp. Otherwise exit at close of bar ie+v4_bars-1 (= L+2, 10 min after entry). Gap-through -> bar open."""
+    p = dict(P, **p); e = df.loc[ie].o; sg = -1 if d == 'S' else 1
+    stop = e - sg*p['v4_sl']; tp = e + sg*p['v4_tp']; last = min(ie + p['v4_bars'], len(df)) - 1
+    for j in range(ie, last + 1):
+        b = df.loc[j]
+        if (b.l <= stop) if sg > 0 else (b.h >= stop):
+            x = b.o if (j > ie and ((b.o < stop) if sg > 0 else (b.o > stop))) else stop
+            return 'SL', sg*(x - e) - p['cost']
+        if (b.h >= tp) if sg > 0 else (b.l <= tp):
+            x = b.o if (j > ie and ((b.o > tp) if sg > 0 else (b.o < tp))) else tp
+            return 'TP', sg*(x - e) - p['cost']
+    return 'TIME', sg*(df.loc[last].c - e) - p['cost']
 if __name__ == '__main__':
     a = argparse.ArgumentParser(); a.add_argument('csv'); a.add_argument('--from'); a.add_argument('--to')
     a.add_argument('--modes', default='abc'); a.add_argument('--zone', type=float); a.add_argument('--touch', action='store_true')
-    a.add_argument('--exit', default='fixed', choices=['fixed','v3']); a.add_argument('--trail', type=float, default=3.0); a.add_argument('--be', action='store_true')
+    a.add_argument('--exit', default='fixed', choices=['fixed','v3','v4']); a.add_argument('--trail', type=float, default=3.0); a.add_argument('--be', action='store_true')
     x = a.parse_args(); df = load(x.csv); s = detect(df, dict(modes=x.modes, zone_max=x.zone, touch=x.touch))
     if getattr(x, 'from'): s = s[s.conf_srv >= getattr(x, 'from')]
     if x.to: s = s[s.conf_srv < x.to]
     for _, r in s.iterrows():
         print(f"SIW2 {r.dir} {r.kind:9s} confirm {r.conf_srv:%m-%d %H:%M} srv  ENTRY {r.entry_srv:%H:%M} srv / {r.entry_ict:%m-%d %H:%M} ICT @ {r.entry} (bid)  leg {r.leg_dist}", end='')
-        if x.exit == 'v3': k, pnl = outcome_v3(df, r.i+1, r.dir, dict(v3_trail=x.trail, v3_be=x.be)); print(f"  v3 {k} {pnl:+.2f}")
+        if x.exit == 'v4': k, pnl = outcome_v4(df, r.i+1, r.dir); print(f"  v4 {k} {pnl:+.2f}")
+        elif x.exit == 'v3': k, pnl = outcome_v3(df, r.i+1, r.dir, dict(v3_trail=x.trail, v3_be=x.be)); print(f"  v3 {k} {pnl:+.2f}")
         else: k, pnl = outcome(df, r.i+1, r.dir); print(f"  {k} {pnl:+.2f}")
