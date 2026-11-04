@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SIW (Star-in-Wick) XAUUSD M5 detector + backtester -- v5 (2026-11-04). WATCH-ONLY: never sends orders.
+"""SIW (Star-in-Wick) XAUUSD M5 detector + backtester -- v6 (2026-11-04). WATCH-ONLY: never sends orders.
 
 Owner: Preda (ส้มน้อย). Alerts go out in Thai via the routine `xau-plan-watch` (runs in dr eggbot,
 every 15 min weekdays 08:01-23:46 ICT; silent when nothing new). Handbook: README_HANDBOOK.md (same folder).
@@ -14,24 +14,27 @@ DATA
   Offsets: Dukascopy BID ~= IC Markets BID + $1.5. Backtests use IC Markets BID history (CSV cols t,o,h,l,c; t=ms UTC).
 
 TIME
-  Report ICT (Asia/Bangkok, UTC+7) AND MT5 server time: server = ICT-5h in winter (UTC+2, from 2026-11-01),
-  ICT-4h in summer (UTC+3). Closed bars only. L = confirm bar; entry = OPEN of L+1.
+  Bars are named by OPEN time. Report ICT (Asia/Bangkok, UTC+7) AND MT5 server time (UTC+2 when US is on standard
+  time, UTC+3 during US DST; winter = ICT-5h). Closed bars only. L = signal bar; entry = OPEN of L+1; time exit = CLOSE of
+  L+2 = L open + 15 min.
 
-RULES (sell shown; buy is the mirror)
-  1 Direction: EMA21 vs EMA55 of M5 closes (warm-up 500 bars). EMA21<EMA55 -> sells only; > -> buys only.
-  2 Pattern at L (modes abc): A pin (trend-opposite wick >=50% of range, body <=35%) or small body <=40% inside
-    L-1's wick (+-$0.30); B engulfing in trend direction (tol $0.10); C L-1 is pin/star-in-wick and L closes trend colour.
-  3 Leg filter: |close(L) - 12-bar extreme| <= $10.
-  4 Fresh-extreme filter (R251, K=5, default ON): set = L-2..L. SELL needs max(high of set) >= every high of
-    L-7..L-3; BUY needs min(low of set) <= every low of L-7..L-3. Order inside the set does not matter.
-  5 Dedupe: skip same-direction signal within 3 bars of the last one alerted (live). Research default 1.
-EXIT v4 (current): SL $10, TP $20, time exit at CLOSE of L+2 (10 min after entry); bar by bar, SL checked before TP,
-  gap through a level fills at bar open. Cost $0.28 per 0.01 lot.
-STATUS: R247-R251 found NO proven edge (N_TRIALS 6670). Alerts are information, not advice.
+RULES v6 (user-approved refined PA rule, 2026-11-04; buy shown, sell is the mirror)
+  1 Direction: EMA21 vs EMA55 of M5 closes. EMA21>EMA55 -> buys only; < -> sells only.
+  2 Pullback: L-1 is red (buy) / green (sell), any size. No shrinking-body requirement.
+  3 Signal L: PIN (lower wick >=50% of range, body <=40%, any colour) OR ENG (green L, red L-1, strict body engulf:
+    open(L) <= close(L-1) and close(L) >= open(L-1), tolerance $0).
+  4 Fresh extreme: set = L-1..L. BUY needs min low of set <= every low of the K bars before the set (L-1-K..L-2).
+    Evaluated for K=10 and K=5. Tag "K10" if it passes K=10 (implies K=5), else "K5". Fails K=5 -> no signal.
+  5 Dedupe: if the same side signals on two consecutive bars, keep the LATER bar (it supersedes).
+  No leg filter, no modes abc in v6 (leg_dist is still reported for info).
+EXIT v4 (unchanged): SL $10, TP $20, time exit at CLOSE of L+2; bar by bar, SL checked before TP,
+  gap through a level fills at bar open. Cost $0.28 per 0.01 lot (backtest P&L is net of it).
+STATUS: no proven edge. R252 (IC BID May-2025..Oct-2026) is negative for every K tag and side. Alerts are information.
 
 CLI
-  python3 siw.py --live [--no-fresh] [--k 5] [--since-min 30]   # fetch Dukascopy, print signals as JSON lines
-  python3 siw.py --backtest data.csv [--from YYYY-MM-DD] [--to ...] [--exit v4|v3|fixed] [--no-fresh] [--dedupe 3]
+  python3 siw.py --live [--since-min 30] [--k 5|10] [--no-fresh]   # Dukascopy, JSON lines incl. k_tag
+  python3 siw.py --backtest data.csv [--from 'YYYY-MM-DD HH:MM'] [--to ...] [--k 5|10] [--no-fresh] [--dedupe 1|0]
+  (--from/--to compare against MT5 server time; old helpers outcome()/outcome_v3() kept for research)
   python3 siw.py data.csv ...                                    # legacy form = --backtest
 """
 import argparse, json, re, subprocess, time, sys, pandas as pd, numpy as np
@@ -43,19 +46,22 @@ P = dict(
   max_ext=10.0,       # skip if leg extreme -> close(L) distance > this ($)
   zone_max=None,      # optional pullback-zone check: distance <= zone_max (e.g. 3)
   touch=False,        # optional: sell needs leg high >= EMA21 - ema_tol (buy mirror)
-  ema_tol=1.0, dedupe=1,  # dedupe=3 blocked 11 of his picks (fired 1 bar earlier)
+  ema_tol=1.0, dedupe=1,  # v6: dedupe=1 -> collapse consecutive same-side, keep later
+   # dedupe=3 blocked 11 of his picks (fired 1 bar earlier)
   tp=10.0, sl=5.0, cost=0.28, timeout=48,
   exit='fixed',       # 'fixed' (tp/sl above) or 'v3'
   v3_sl=5.0, v3_tp=20.0, v3_after=3, v3_trail=3.0, v3_be=False,  # v3: after N bars trail from best price; optional BE
   v4_sl=10.0, v4_tp=20.0, v4_bars=2,  # v4 (2026-11-04, CURRENT): SL $10, TP $20 cap, close at close of L+2 (10 min after entry)
   fresh=True, fresh_k=5,  # R251 fresh-extreme filter: set L-(K-3)..L must make the extreme vs L-K-2..L-K+2 ... see fresh_ok()
   live=False,         # live: allow L = last closed bar (no L+1 yet)
+  v6_pin_body_max=0.40, v6_engulf_tol=0.0, k_min=5,  # v6 (2026-11-04)
 )
 def load(path):
     return prep(pd.read_csv(path))
 def prep(df):
     df = df.copy(); df['utc'] = pd.to_datetime(df.t, unit='ms')
-    df['srv'] = df.utc + pd.to_timedelta(np.where(df.utc < pd.Timestamp('2026-11-01'), 3, 2), unit='h')
+    nyc = df.utc.dt.tz_localize('UTC').dt.tz_convert('America/New_York')          # MT5 server = UTC+3 when US DST, else UTC+2
+    df['srv'] = df.utc + pd.to_timedelta(np.where(nyc.map(lambda x: x.dst().total_seconds() > 0), 3, 2), unit='h')
     df['ict'] = df.utc + pd.Timedelta(hours=7)
     df['e21'] = df.c.ewm(span=21, adjust=False).mean(); df['e55'] = df.c.ewm(span=55, adjust=False).mean()
     return df.reset_index(drop=True)
@@ -92,25 +98,42 @@ def fresh_ok(df, i, d, k=5):
     s = df.loc[i-2:i]; r = df.loc[i-2-k:i-3]
     if len(r) < k: return False
     return s.h.max() >= r.h.max() if d == 'S' else s.l.min() <= r.l.min()
+def pin_v6(b, d, p):
+    """v6 pin: wick on the trend-opposite side (lower for BUY, upper for SELL) >= 50% of range, body <= 40% of range. Any colour."""
+    bp, uw, lw, _, _ = _shape(b)
+    return (lw if d == 'B' else uw) >= p['pin_wick_min'] and bp <= p['v6_pin_body_max']
+def fresh_v6(df, i, d, k):
+    """v6 fresh extreme: set = L-1..L; reference = the K bars before the set (L-1-K..L-2).
+    BUY: min low of set <= every reference low. SELL: max high of set >= every reference high."""
+    if i - 1 - k < 0: return False
+    s = df.loc[i-1:i]; r = df.loc[i-1-k:i-2]
+    return s.l.min() <= r.l.min() if d == 'B' else s.h.max() >= r.h.max()
 def detect(df, p=P):
-    p = dict(P, **p); out, last = [], {'S': -99, 'B': -99}
-    for i in range(max(60, p['leg_lookback']), len(df) - (0 if p['live'] else 1)):
-        L = df.loc[i]; d = 'B' if L.e21 > L.e55 else 'S'
-        k = classify(df, i, d, p)
-        if not k: continue
+    """v6 (2026-11-04, user-approved refined PA rule). Returns signals passing K=5 (or all if fresh off), tagged K10/K5."""
+    p = dict(P, **p); out = []
+    for i in range(60, len(df) - (0 if p['live'] else 1)):
+        L, p1 = df.loc[i], df.loc[i-1]; d = 'B' if L.e21 > L.e55 else 'S'
+        if not ((p1.c < p1.o) if d == 'B' else (p1.c > p1.o)): continue          # pullback bar L-1 against trend
+        if pin_v6(L, d, p): kind = 'PIN'
+        elif engulf(L, p1, d, p['v6_engulf_tol']): kind = 'ENG'
+        else: continue
+        k10, k5 = fresh_v6(df, i, d, 10), fresh_v6(df, i, d, 5)
+        if p['fresh'] and not k5: continue
+        tag = 'K10' if k10 else ('K5' if k5 else 'NOFRESH')
+        if p['k_min'] == 10 and tag != 'K10': continue
         w = df.loc[i-p['leg_lookback']+1:i]
         dist = (w.h.max() - L.c) if d == 'S' else (L.c - w.l.min())
-        if dist > p['max_ext']: continue
-        if p['zone_max'] is not None and dist > p['zone_max']: continue
-        if p['touch'] and not ((w.h.max() >= L.e21 - p['ema_tol']) if d == 'S' else (w.l.min() <= L.e21 + p['ema_tol'])): continue
-        if p['fresh'] and not fresh_ok(df, i, d, p['fresh_k']): continue
-        if i - last[d] < p['dedupe']: continue
-        last[d] = i
-        out.append(dict(i=i, dir=d, kind=k, conf_srv=L.srv, conf_ict=L.ict,
-                        entry_srv=(df.loc[i+1].srv if i+1 < len(df) else L.srv + pd.Timedelta(minutes=5)),
-                        entry_ict=(df.loc[i+1].ict if i+1 < len(df) else L.ict + pd.Timedelta(minutes=5)),
-                        entry=(round(df.loc[i+1].o, 2) if i+1 < len(df) else None), conf_close=round(L.c, 2), leg_dist=round(dist, 2)))
-    return pd.DataFrame(out, columns=['i','dir','kind','conf_srv','conf_ict','entry_srv','entry_ict','entry','conf_close','leg_dist'])
+        nx = i + 1 < len(df)
+        out.append(dict(i=i, dir=d, kind=kind, k_tag=tag, conf_srv=L.srv, conf_ict=L.ict,
+                        entry_srv=(df.loc[i+1].srv if nx else L.srv + pd.Timedelta(minutes=5)),
+                        entry_ict=(df.loc[i+1].ict if nx else L.ict + pd.Timedelta(minutes=5)),
+                        entry=(round(df.loc[i+1].o, 2) if nx else None), conf_close=round(L.c, 2), leg_dist=round(dist, 2)))
+    cols = ['i','dir','kind','k_tag','conf_srv','conf_ict','entry_srv','entry_ict','entry','conf_close','leg_dist']
+    s = pd.DataFrame(out, columns=cols)
+    if p['dedupe'] and len(s):   # consecutive same-side signals (bar L and L+1): keep the LATER one (newer bar supersedes)
+        nxt_same = (s.i.shift(-1) == s.i + 1) & (s.dir.shift(-1) == s.dir)
+        s = s[~nxt_same].reset_index(drop=True)
+    return s
 def outcome(df, ie, d, p=P):
     p = dict(P, **p); e = df.loc[ie].o
     for j in range(ie, min(ie + p['timeout'], len(df))):
@@ -169,24 +192,24 @@ def fetch_duka(tries=2):
     raise RuntimeError('Dukascopy stale/unreachable -> use Yahoo GC=F 5m fallback (levels only, ~+$12 vs IC)')
 def live(a):
     df, src = fetch_duka(); df = prep(df)
-    s = detect(df, dict(live=True, dedupe=3, fresh=not a.no_fresh, fresh_k=a.k))
+    s = detect(df, dict(live=True, dedupe=1, fresh=not a.no_fresh))
     cut = df.utc.iloc[-1] - pd.Timedelta(minutes=a.since_min)
     s = s[df.loc[s.i, 'utc'].values >= cut] if len(s) else s
     last = df.iloc[-1]
     print(json.dumps(dict(source=src, last_closed_ict=f"{last.ict:%Y-%m-%d %H:%M}", last_close=round(last.c, 2),
                           trend='BUY-only' if last.e21 > last.e55 else 'SELL-only', n_signals=len(s)), ensure_ascii=False))
     for _, r in s.iterrows():
-        print(json.dumps(dict(dir=r.dir, kind=r.kind, confirm_ict=f"{r.conf_ict:%Y-%m-%d %H:%M}", confirm_srv=f"{r.conf_srv:%H:%M}",
+        print(json.dumps(dict(dir=r.dir, kind=r.kind, k_tag=r.k_tag, confirm_ict=f"{r.conf_ict:%Y-%m-%d %H:%M}", confirm_srv=f"{r.conf_srv:%H:%M}",
               entry_ict=f"{r.entry_ict:%H:%M}", entry_srv=f"{r.entry_srv:%H:%M}", entry=r.entry, confirm_close=r.conf_close,
               sl=round(r.conf_close + (10 if r.dir == 'S' else -10), 2), tp=round(r.conf_close + (-20 if r.dir == 'S' else 20), 2),
-              time_exit_ict=f"{r.conf_ict + pd.Timedelta(minutes=15):%H:%M}", leg_dist=r.leg_dist, note='SL/TP shown from confirm close; recompute from actual entry open'), ensure_ascii=False))
+              time_exit_ict=f"{r.conf_ict + pd.Timedelta(minutes=15):%H:%M}", time_exit_srv=f"{r.conf_srv + pd.Timedelta(minutes=15):%H:%M}", leg_dist=r.leg_dist, note='SL/TP shown from confirm close; recompute from actual entry open'), ensure_ascii=False))
 def backtest(a):
-    df = load(a.backtest); s = detect(df, dict(modes=a.modes, zone_max=a.zone, touch=a.touch, fresh=not a.no_fresh, fresh_k=a.k, dedupe=a.dedupe))
+    df = load(a.backtest); s = detect(df, dict(fresh=not a.no_fresh, dedupe=a.dedupe, k_min=a.k))
     if getattr(a, 'from'): s = s[s.conf_srv >= getattr(a, 'from')]
     if a.to: s = s[s.conf_srv < a.to]
     tot = []
     for _, r in s.iterrows():
-        print(f"SIW2 {r.dir} {r.kind:9s} confirm {r.conf_srv:%m-%d %H:%M} srv  ENTRY {r.entry_srv:%H:%M} srv / {r.entry_ict:%m-%d %H:%M} ICT @ {r.entry} (bid)  leg {r.leg_dist}", end='')
+        print(f"SIW6 {r.dir} {r.kind:3s} {r.k_tag:3s} L(open) {r.conf_srv:%m-%d %H:%M} srv / {r.conf_ict:%H:%M} ICT  ENTRY {r.entry_srv:%H:%M} srv / {r.entry_ict:%m-%d %H:%M} ICT @ {r.entry} (bid)  leg {r.leg_dist}", end='')
         if a.exit == 'v4': k, pnl = outcome_v4(df, r.i+1, r.dir)
         elif a.exit == 'v3': k, pnl = outcome_v3(df, r.i+1, r.dir, dict(v3_trail=a.trail, v3_be=a.be))
         else: k, pnl = outcome(df, r.i+1, r.dir)
@@ -199,6 +222,6 @@ if __name__ == '__main__':
     a.add_argument('--from'); a.add_argument('--to'); a.add_argument('--modes', default='abc'); a.add_argument('--zone', type=float)
     a.add_argument('--touch', action='store_true'); a.add_argument('--exit', default='v4', choices=['fixed','v3','v4'])
     a.add_argument('--trail', type=float, default=3.0); a.add_argument('--be', action='store_true')
-    a.add_argument('--no-fresh', action='store_true', help='disable R251 fresh-extreme filter'); a.add_argument('--k', type=int, default=5)
-    a.add_argument('--dedupe', type=int, default=1); a.add_argument('--since-min', type=int, default=30, help='live: only signals confirmed in last N min')
+    a.add_argument('--no-fresh', action='store_true', help='disable R251 fresh-extreme filter'); a.add_argument('--k', type=int, default=5, choices=[5,10], help='minimum K tag to show')
+    a.add_argument('--dedupe', type=int, default=1, help='1=collapse consecutive same-side (keep later), 0=off'); a.add_argument('--since-min', type=int, default=30, help='live: only signals confirmed in last N min')
     x = a.parse_args(); live(x) if x.live else backtest(x)
