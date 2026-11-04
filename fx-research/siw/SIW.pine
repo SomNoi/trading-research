@@ -1,0 +1,95 @@
+//@version=5
+strategy("SIW v2 strategy XAUUSD M5", overlay=true, max_labels_count=500, initial_capital=10000, default_qty_type=strategy.fixed, default_qty_value=1, commission_type=strategy.commission.cash_per_order, commission_value=0.14, process_orders_on_close=false)
+useA      = input.bool(true,  "A: confirm bar is pin / star-in-prev-wick")
+useB      = input.bool(true,  "B: confirm bar is engulfing")
+useC      = input.bool(true,  "C: prev bar pin/star-in-wick + colour confirm")
+starBody  = input.float(0.40, "Star max body %")
+pinWick   = input.float(0.50, "Pin min wick %")
+pinBody   = input.float(0.35, "Pin max body %")
+wickTol   = input.float(0.30, "Wick tolerance $")
+engTol    = input.float(0.10, "Engulf tolerance $")
+legLen    = input.int(12,     "Leg lookback bars")
+maxExt    = input.float(10.0, "Max leg-extreme to close $")
+useZone   = input.bool(false, "Optional pullback zone filter")
+zoneMax   = input.float(3.0,  "Zone max $")
+exitMode  = input.string("v3", "Exit", options=["fixed","v3"])
+tpUsd     = input.float(10.0, "Fixed TP $")
+slUsd     = input.float(5.0,  "Fixed SL $")
+v3sl      = input.float(5.0,  "v3 SL $")
+v3tp      = input.float(20.0, "v3 TP $")
+v3after   = input.int(3,      "v3 trail after N bars (3 = 15 min)")
+v3trail   = input.float(3.0,  "v3 trail distance $ (2/3/5)")
+v3be      = input.bool(false, "v3 move SL to breakeven at activation")
+
+e21 = ta.ema(close, 21)
+e55 = ta.ema(close, 55)
+plot(e21, "EMA21", color.orange)
+plot(e55, "EMA55", color.blue)
+up = e21 > e55
+dn = e21 < e55
+
+// shape helpers for bar offset k (k=0 current, prev = k+1)
+rej(int k, bool sell) =>
+    rng  = math.max(high[k] - low[k], 1e-9)
+    top  = math.max(open[k], close[k])
+    bot  = math.min(open[k], close[k])
+    bp   = (top - bot) / rng
+    ptop = math.max(open[k + 1], close[k + 1])
+    pbot = math.min(open[k + 1], close[k + 1])
+    bool r = false
+    if sell
+        pin  = (high[k] - top) / rng >= pinWick and bp <= pinBody
+        star = bp <= starBody and bot >= ptop - wickTol and top <= high[k + 1] + wickTol and high[k + 1] > ptop
+        r := pin or star
+    else
+        pin  = (bot - low[k]) / rng >= pinWick and bp <= pinBody
+        star = bp <= starBody and top <= pbot + wickTol and bot >= low[k + 1] - wickTol and pbot > low[k + 1]
+        r := pin or star
+    r
+
+engS = close < open and close[1] > open[1] and open >= close[1] - engTol and close <= open[1] + engTol
+engB = close > open and close[1] < open[1] and open <= close[1] + engTol and close >= open[1] - engTol
+
+patS = (useA and rej(0, true))  or (useB and engS) or (useC and close < open and rej(1, true))
+patB = (useA and rej(0, false)) or (useB and engB) or (useC and close > open and rej(1, false))
+
+distS = ta.highest(high, legLen) - close
+distB = close - ta.lowest(low, legLen)
+okS = distS <= maxExt and (not useZone or distS <= zoneMax)
+okB = distB <= maxExt and (not useZone or distB <= zoneMax)
+
+sigS = barstate.isconfirmed and dn and patS and okS
+sigB = barstate.isconfirmed and up and patB and okB
+
+plotshape(sigS, "SELL", shape.triangledown, location.abovebar, color.red,   size=size.small)
+plotshape(sigB, "BUY",  shape.triangleup,   location.belowbar, color.green, size=size.small)
+// ---- orders (backtest only). Entry fills at next bar open. Commission 0.14 x2 = $0.28 per 1 unit (set qty to match 0.01 lot = 1 oz).
+if sigS and strategy.position_size == 0
+    strategy.entry("S", strategy.short)
+if sigB and strategy.position_size == 0
+    strategy.entry("B", strategy.long)
+var float best = na
+var int ebar = na
+if strategy.position_size != 0 and strategy.position_size[1] == 0
+    ebar := bar_index
+    best := strategy.position_avg_price
+pe = strategy.position_avg_price
+if strategy.position_size < 0
+    sl = exitMode == "fixed" ? pe + slUsd : pe + v3sl
+    if exitMode == "v3" and bar_index - ebar >= v3after
+        sl := math.min(sl, best + v3trail)
+        if v3be
+            sl := math.min(sl, pe)
+    strategy.exit("xS", "S", stop=sl, limit=exitMode == "fixed" ? pe - tpUsd : pe - v3tp)
+    best := math.min(best, low)
+if strategy.position_size > 0
+    sl = exitMode == "fixed" ? pe - slUsd : pe - v3sl
+    if exitMode == "v3" and bar_index - ebar >= v3after
+        sl := math.max(sl, best - v3trail)
+        if v3be
+            sl := math.max(sl, pe)
+    strategy.exit("xB", "B", stop=sl, limit=exitMode == "fixed" ? pe + tpUsd : pe + v3tp)
+    best := math.max(best, high)
+// note: TradingView's broker emulator may fill TP before SL inside one bar; Python uses SL-first (more conservative).
+alertcondition(sigS, "SIW2 SELL", "SIW2 SELL XAUUSD M5: enter next bar open, SL $5 / TP $20, trail after 15 min")
+alertcondition(sigB, "SIW2 BUY",  "SIW2 BUY XAUUSD M5: enter next bar open, SL $5 / TP $20, trail after 15 min")
