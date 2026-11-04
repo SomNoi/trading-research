@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SIW (Star-in-Wick) XAUUSD M5 detector + backtester -- v6 (2026-11-04). WATCH-ONLY: never sends orders.
+"""SIW (Star-in-Wick) XAUUSD M5 detector + backtester -- v7 (2026-11-05; rules v6, exit v7). WATCH-ONLY: never sends orders.
 
 Owner: Preda (ส้มน้อย). Alerts go out in Thai via the routine `xau-plan-watch` (runs in dr eggbot,
 every 15 min weekdays 08:01-23:46 ICT; silent when nothing new). Handbook: README_HANDBOOK.md (same folder).
@@ -27,7 +27,10 @@ RULES v6 (user-approved refined PA rule, 2026-11-04; buy shown, sell is the mirr
     Evaluated for K=10 and K=5. Tag "K10" if it passes K=10 (implies K=5), else "K5". Fails K=5 -> no signal.
   5 Dedupe: if the same side signals on two consecutive bars, keep the LATER bar (it supersedes).
   No leg filter, no modes abc in v6 (leg_dist is still reported for info).
-EXIT v4 (unchanged): SL $10, TP $20, time exit at CLOSE of L+2; bar by bar, SL checked before TP,
+EXIT v7 (DEFAULT, user-approved 2026-11-05): structural SL = BUY min low of L-1..L / SELL max high of L-1..L;
+  SKIP the signal if |entry - SL| > $8 (or <= $0.01, entry gapped through); TP $20; time exit at CLOSE of L+2.
+  Old exit kept: --exit v4 (SL $10 fixed). Live JSON gives sl, sl_dist, tp, skip.
+EXIT v4 (old): SL $10, TP $20, time exit at CLOSE of L+2; bar by bar, SL checked before TP,
   gap through a level fills at bar open. Cost $0.28 per 0.01 lot (backtest P&L is net of it).
 STATUS: no proven edge. R252 (IC BID May-2025..Oct-2026) is negative for every K tag and side. Alerts are information.
 
@@ -51,6 +54,7 @@ P = dict(
   tp=10.0, sl=5.0, cost=0.28, timeout=48,
   exit='fixed',       # 'fixed' (tp/sl above) or 'v3'
   v3_sl=5.0, v3_tp=20.0, v3_after=3, v3_trail=3.0, v3_be=False,  # v3: after N bars trail from best price; optional BE
+  v7_cap=8.0, v7_tp=20.0,  # v7 (2026-11-05, CURRENT): struct SL L-1..L, skip if dist>cap, TP $20, exit close L+2
   v4_sl=10.0, v4_tp=20.0, v4_bars=2,  # v4 (2026-11-04, CURRENT): SL $10, TP $20 cap, close at close of L+2 (10 min after entry)
   fresh=True, fresh_k=5,  # R251 fresh-extreme filter: set L-(K-3)..L must make the extreme vs L-K-2..L-K+2 ... see fresh_ok()
   live=False,         # live: allow L = last closed bar (no L+1 yet)
@@ -174,6 +178,24 @@ def outcome_v4(df, ie, d, p=P):
             x = b.o if (j > ie and ((b.o > tp) if sg > 0 else (b.o < tp))) else tp
             return 'TP', sg*(x - e) - p['cost']
     return 'TIME', sg*(df.loc[last].c - e) - p['cost']
+def struct_sl(df, i, d):
+    return float(min(df.loc[i].l, df.loc[i-1].l)) if d == 'B' else float(max(df.loc[i].h, df.loc[i-1].h))
+def outcome_v7(df, ie, d, p=P):
+    """v7 (current, 2026-11-05): L = ie-1. SL = struct (min low/max high of L-1..L); SKIP if dist from entry > v7_cap or <=0.01.
+    TP v7_tp; SL checked before TP; exit at close of L+2. Returns ('SKIP', nan) when skipped."""
+    p = dict(P, **p); e = df.loc[ie].o; sg = -1 if d == 'S' else 1
+    stop = struct_sl(df, ie-1, d); dist = sg*(e - stop)
+    if dist <= 0.01 or dist > p['v7_cap']: return 'SKIP', float('nan')
+    tp = e + sg*p['v7_tp']; last = min(ie + p['v4_bars'], len(df)) - 1
+    for j in range(ie, last + 1):
+        b = df.loc[j]
+        if (b.l <= stop) if sg > 0 else (b.h >= stop):
+            x = b.o if (j > ie and ((b.o < stop) if sg > 0 else (b.o > stop))) else stop
+            return 'SL', sg*(x - e) - p['cost']
+        if (b.h >= tp) if sg > 0 else (b.l <= tp):
+            x = b.o if (j > ie and ((b.o > tp) if sg > 0 else (b.o < tp))) else tp
+            return 'TP', sg*(x - e) - p['cost']
+    return 'TIME', sg*(df.loc[last].c - e) - p['cost']
 DUKA = ("https://freeserv.dukascopy.com/2.0/?path=chart/json3&instrument=XAU/USD&offer_side=B&interval=5MIN"
         "&splits=true&stocks=true&limit=500&time_direction=P&timestamp={ts}&jsonp=_cb")
 def fetch_duka(tries=2):
@@ -199,10 +221,14 @@ def live(a):
     print(json.dumps(dict(source=src, last_closed_ict=f"{last.ict:%Y-%m-%d %H:%M}", last_close=round(last.c, 2),
                           trend='BUY-only' if last.e21 > last.e55 else 'SELL-only', n_signals=len(s)), ensure_ascii=False))
     for _, r in s.iterrows():
+        ref = r.entry if r.entry is not None and r.entry == r.entry else r.conf_close; sg = -1 if r.dir == 'S' else 1
+        if a.exit == 'v4': sl = ref - sg*10; skip = False
+        else: sl = struct_sl(df, r.i, r.dir); skip = not (0.01 < sg*(ref - sl) <= P['v7_cap'])
         print(json.dumps(dict(dir=r.dir, kind=r.kind, k_tag=r.k_tag, confirm_ict=f"{r.conf_ict:%Y-%m-%d %H:%M}", confirm_srv=f"{r.conf_srv:%H:%M}",
               entry_ict=f"{r.entry_ict:%H:%M}", entry_srv=f"{r.entry_srv:%H:%M}", entry=r.entry, confirm_close=r.conf_close,
-              sl=round(r.conf_close + (10 if r.dir == 'S' else -10), 2), tp=round(r.conf_close + (-20 if r.dir == 'S' else 20), 2),
-              time_exit_ict=f"{r.conf_ict + pd.Timedelta(minutes=15):%H:%M}", time_exit_srv=f"{r.conf_srv + pd.Timedelta(minutes=15):%H:%M}", leg_dist=r.leg_dist, note='SL/TP shown from confirm close; recompute from actual entry open'), ensure_ascii=False))
+              exit=a.exit, sl=round(sl, 2), sl_dist=round(sg*(ref - sl), 2), tp=round(ref + sg*20, 2), skip=bool(skip),
+              skip_reason=(f"SL distance > ${P['v7_cap']:.0f}" if skip else None),
+              time_exit_ict=f"{r.conf_ict + pd.Timedelta(minutes=15):%H:%M}", time_exit_srv=f"{r.conf_srv + pd.Timedelta(minutes=15):%H:%M}", leg_dist=r.leg_dist, note='sl_dist/tp from entry if L+1 open known else confirm close; recompute from actual entry open'), ensure_ascii=False))
 def backtest(a):
     df = load(a.backtest); s = detect(df, dict(fresh=not a.no_fresh, dedupe=a.dedupe, k_min=a.k))
     if getattr(a, 'from'): s = s[s.conf_srv >= getattr(a, 'from')]
@@ -210,9 +236,11 @@ def backtest(a):
     tot = []
     for _, r in s.iterrows():
         print(f"SIW6 {r.dir} {r.kind:3s} {r.k_tag:3s} L(open) {r.conf_srv:%m-%d %H:%M} srv / {r.conf_ict:%H:%M} ICT  ENTRY {r.entry_srv:%H:%M} srv / {r.entry_ict:%m-%d %H:%M} ICT @ {r.entry} (bid)  leg {r.leg_dist}", end='')
-        if a.exit == 'v4': k, pnl = outcome_v4(df, r.i+1, r.dir)
+        if a.exit == 'v7': k, pnl = outcome_v7(df, r.i+1, r.dir)
+        elif a.exit == 'v4': k, pnl = outcome_v4(df, r.i+1, r.dir)
         elif a.exit == 'v3': k, pnl = outcome_v3(df, r.i+1, r.dir, dict(v3_trail=a.trail, v3_be=a.be))
         else: k, pnl = outcome(df, r.i+1, r.dir)
+        if k == 'SKIP': print(f"  {a.exit} SKIP (SL dist > ${P['v7_cap']:.0f})"); continue
         tot.append(pnl); print(f"  {a.exit} {k} {pnl:+.2f}")
     if tot: print(f"# n={len(tot)} win={np.mean(np.array(tot)>0):.0%} total={sum(tot):+.2f} avg={np.mean(tot):+.2f}  (IN-SAMPLE, no proven edge)")
 if __name__ == '__main__':
@@ -220,7 +248,7 @@ if __name__ == '__main__':
     a = argparse.ArgumentParser(); g = a.add_mutually_exclusive_group(required=True)
     g.add_argument('--live', action='store_true'); g.add_argument('--backtest', metavar='CSV')
     a.add_argument('--from'); a.add_argument('--to'); a.add_argument('--modes', default='abc'); a.add_argument('--zone', type=float)
-    a.add_argument('--touch', action='store_true'); a.add_argument('--exit', default='v4', choices=['fixed','v3','v4'])
+    a.add_argument('--touch', action='store_true'); a.add_argument('--exit', default='v7', choices=['fixed','v3','v4','v7'])
     a.add_argument('--trail', type=float, default=3.0); a.add_argument('--be', action='store_true')
     a.add_argument('--no-fresh', action='store_true', help='disable R251 fresh-extreme filter'); a.add_argument('--k', type=int, default=5, choices=[5,10], help='minimum K tag to show')
     a.add_argument('--dedupe', type=int, default=1, help='1=collapse consecutive same-side (keep later), 0=off'); a.add_argument('--since-min', type=int, default=30, help='live: only signals confirmed in last N min')
